@@ -15,14 +15,6 @@ router.get('/', function (req, res, next) {
         if (error) throw error;
         console.log("connected");
     });
-    connection.query("Select * from schüler", (error, result, fields) => {
-        if (error) throw error;
-
-        console.log(result[0]["Vorname"]);
-        res.send("Hallo " + result[0]["Vorname"]);
-    })
-
-
 });
 
 module.exports = router;
