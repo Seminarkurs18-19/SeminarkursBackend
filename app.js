@@ -18,6 +18,6 @@ app.get('/', (req, res) => {
     res.end('LOL');
 });
 
-app.listen(3000, () => {
-    console.log('3000')
+app.listen(3001, () => {
+    console.log('3001')
 });
