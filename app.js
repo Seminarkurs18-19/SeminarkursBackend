@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
 
 const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 const connection = mysql.createConnection({
     host: "alexkutschera.de",
@@ -12,6 +14,11 @@ const connection = mysql.createConnection({
 }).connect((e) => {
     if (e) throw e;
     console.log('connected');
+});
+
+io.on("connection", (socket) => {
+    console.log('socket connected')
+    socket.emit('welcome', 'from the server');
 });
 
 app.get('/', (req, res) => {
