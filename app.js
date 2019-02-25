@@ -21,6 +21,10 @@ io.on("connection", (socket) => {
     socket.emit('welcome', 'from the server');
 });
 
+http.listen(3001, () => {
+    console.log('3001')
+});
+
 app.get('/', (req, res) => {
     res.end('LOL');
 });
