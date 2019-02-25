@@ -1,23 +1,23 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const mysql = require("mysql");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const app = express();
 
-var app = express();
+const connection = mysql.createConnection({
+    host: "alexkutschera.de",
+    user: "seminarkurs",
+    password: "?2Jyrl04",
+    database: "seminarkurs"
+}).connect((e) => {
+    if (e) throw e;
+    console.log('connected');
+});
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/', (req, res) => {
+    res.end('LOL');
+});
 
 app.listen(3000, () => {
     console.log('3000')
 });
-module.exports = app;
