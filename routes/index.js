@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
     var connection = mysql.createConnection({
         host: "alexkutschera.de",
         user: "seminarkurs",
-        password: "7S_oz7b8",
+        password: "?2Jyrl04",
         database: "seminarkurs"
     });
     connection.connect((error) => {
