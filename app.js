@@ -87,7 +87,12 @@ connection.query('SELECT * FROM Artikel',function(e,rows) {
 
 io.on("connection", (socket) => {
     console.log('socket connected')
-    socket.emit('welcome', 'from the server');
+    socket.on('item', (data) => {
+       connection.query('SELECT i.ITEM_ID, a.ARTIKEL_ID, a.Art_Bez FROM Item_from_Artikel, Artike WHERE i.ITEM_ID = ' + data.ITEM_ID + ' AND a.ARTIKEL_ID = i.ARTIKEL_ID', (e, rows) => {
+           if (e) throw e;
+           socket.emit('item', rows);
+       })
+    });
 });
 
 app.get('/', (req, res) => {
