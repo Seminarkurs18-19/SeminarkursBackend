@@ -91,7 +91,7 @@ io.on("connection", (socket) => {
         console.log(data);
        connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
            if (e) throw e;
-           console.log(rows);
+           socket.emit('item', rows);
        })
     });
 });
