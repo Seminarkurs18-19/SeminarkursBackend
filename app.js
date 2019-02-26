@@ -3,17 +3,24 @@ const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
 
 const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 const connection = mysql.createConnection({
     host: "alexkutschera.de",
     user: "seminarkurs",
     password: "?2Jyrl04",
     database: "seminarkurs"
-}).connect((e) => {
+});
+connection.connect((e) => {
     if (e) throw e;
     console.log('connected');
+});
+
+connection.query('SELECT * FROM Artikel',function(e,rows) {
+    if (e) throw e;
+    console.log('Data received from Db:\n');
+    console.log(rows);
 });
 
 io.on("connection", (socket) => {
@@ -21,14 +28,10 @@ io.on("connection", (socket) => {
     socket.emit('welcome', 'from the server');
 });
 
-http.listen(3001, () => {
-    console.log('3001')
-});
-
 app.get('/', (req, res) => {
     res.end('LOL');
 });
 
-app.listen(3001, () => {
-    console.log('3001')
+http.listen(3000, () => {
+    console.log('3000')
 });
