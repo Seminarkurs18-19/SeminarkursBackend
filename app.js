@@ -89,10 +89,10 @@ io.on("connection", (socket) => {
     console.log('socket connected')
     socket.on('item', (data) => {
         console.log(data);
-       /*connection.query('SELECT i.ITEM_ID, a.ARTIKEL_ID, a.Art_Bez FROM Item_from_Artikel, Artike WHERE i.ITEM_ID = ' + data.ITEM_ID + ' AND a.ARTIKEL_ID = i.ARTIKEL_ID', (e, rows) => {
+       connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
            if (e) throw e;
            console.log(rows);
-       })*/
+       })
     });
 });
 
