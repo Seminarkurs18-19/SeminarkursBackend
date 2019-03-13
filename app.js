@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
+const search = require('./search.js');
 
 const app = express();
 var http = require('http').Server(app);
@@ -17,25 +18,40 @@ connection.connect((e) => {
     console.log('connected');
 });
 
-connection.query('SELECT * FROM Artikel',function(e,rows) {
+connection.query('SELECT * FROM Artikel WHERE ARTIKEL_ID="7-1234.01"', function (e, rows) {
     if (e) throw e;
     console.log('Data received from Db:\n');
     console.log(rows);
 });
 
 io.on("connection", (socket) => {
-    console.log('socket connected')
+    console.log('socket connected');
+    socket.on('article_search', (data) => {
+        console.log(data);
+        search.articleSearch(data, connection).then((result) => {
+            console.log(result);
+            socket.emit('article_search', result);
+        }).catch((e) => {
+            throw e;
+        })
+    });
+    socket.on('item_search', (data) => {
+        search.itemSearch(data, connection).then((result) => {
+            socket.emit('item_search', result);
+        }).catch((e) => {
+            throw e;
+        })
+    });
     socket.on('item', (data) => {
         console.log(data);
-       connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
-           if (e) throw e;
-           socket.emit('item', rows);
-       })
+        connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
+            if (e) throw e;
+            socket.emit('item', rows);
+        })
     });
 });
-
 app.get('/', (req, res) => {
-    res.end('LOL');
+    res.sendfile("public/html/abfrage.html")
 });
 
 http.listen(3000);
