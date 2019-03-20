@@ -25,23 +25,25 @@ connection.query('SELECT * FROM Artikel WHERE ARTIKEL_ID="7-1234.01"', function 
 });
 
 io.on("connection", (socket) => {
-    console.log('socket connected');
-    socket.on('article_search', (data) => {
-        console.log(data);
-        search.articleSearch(data, connection).then((result) => {
+    console.log('Beim Server angekommen (io.on)');
+
+
+    //Abfrage der Tabellensuche//
+    socket.on('ask_table', function (table) {
+        console.log(table);
+
+        //Verarbeitung
+        search.ask_table(table, connection).then((result) => {
             console.log(result);
-            socket.emit('article_search', result);
+
+            //Ergebnisse zurücksenden
+            socket.emit('get_table', result);
         }).catch((e) => {
             throw e;
-        })
+        });
     });
-    socket.on('item_search', (data) => {
-        search.itemSearch(data, connection).then((result) => {
-            socket.emit('item_search', result);
-        }).catch((e) => {
-            throw e;
-        })
-    });
+
+
     socket.on('item', (data) => {
         console.log(data);
         connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
@@ -50,8 +52,6 @@ io.on("connection", (socket) => {
         })
     });
 });
-app.get('/', (req, res) => {
-    res.sendfile("public/html/abfrage.html")
-});
+app.use(express.static('public'));
 
 http.listen(3000);

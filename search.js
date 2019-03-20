@@ -1,3 +1,14 @@
+this.ask_table = function (table, connection) {
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM ' + table.table,
+            function (e, rows) {
+                if (e) reject(e);
+                resolve(rows);
+            });
+    });
+};
+
+
 this.itemSearch = (data, connection) => {
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM Artikel WHERE ARTIKEL_ID="' + data.ARTIKEL_ID + '"', function (e, rows) {
