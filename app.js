@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
-const search = require('./search.js');
+const script = require('./script.js');
 
 const app = express();
 var http = require('http').Server(app);
@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
         console.log(table);
 
         //Verarbeitung
-        search.ask_table(table, connection).then((result) => {
+        script.ask_table(table, connection).then((result) => {
             console.log(result);
 
             //Ergebnisse zurücksenden
@@ -43,6 +43,51 @@ io.on("connection", (socket) => {
         });
     });
 
+    //Löschen der Tabelle/Spalte//
+    socket.on('delete', function (data) {
+        console.log(data);
+
+        //Verarbeitung
+        script.delete(data, connection).then((result) => {
+            console.log(result);
+
+            //Ergebnisse zurücksenden
+            socket.emit('get_delete', result);
+        }).catch((e) => {
+            throw e;
+        });
+    });
+
+    //Update der Tabelle//
+    socket.on('ask_table', function (data) {
+        console.log(data);
+
+        //Verarbeitung
+        script.update(data, connection).then((result) => {
+            console.log(result);
+
+            //Ergebnisse zurücksenden
+            socket.emit('get_update', result);
+        }).catch((e) => {
+            throw e;
+        });
+    });
+
+    //Einfügen von Daten in Tabelle//
+    socket.on('ask_table', function (data) {
+        console.log(data);
+
+        //Verarbeitung
+        script.insert(data, connection).then((result) => {
+            console.log(result);
+
+            //Ergebnisse zurücksenden
+            socket.emit('get_insert', result);
+        }).catch((e) => {
+            throw e;
+        });
+    });
+//TODO APP-Abfrage PDF-Links
 
     socket.on('item', (data) => {
         console.log(data);
