@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Hinzufügen</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+        //Todo Verrbeiten der Insert Daten
+        //Daten GET
+
+        connection.on('get_insert', (data) => {
+            console.log(data);
+
+        });
+
+        //Daten EMIT
+
+        function verarbeitung() {
+
+            connection.emit('insert', data);
+        }
+    </script>
+</head>
+<body>
+<h1>Test-Upload</h1>
+<p>Zeilen hinzufügen in eine beliebige Tabelle</p><br>
+
+<form>
+    Tabelle:
+    <select id="tabelle">
+        <option value="Indi_Artikel">Individueller Artikel(Item)</option>
+        <option value="Artikel">Artikel</option>
+        <option value="Kommentar">Kommentar</option>
+    </select>
+    <button onclick="wahl()" id="verarbeitung">Hinzufügen</button>
+</form>
+<br>
+<a href="index.html">Zurück</a>
+</body>
+</html>
