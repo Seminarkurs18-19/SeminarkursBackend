@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bearbeiten</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+        //Todo Verrbeiten der Update Daten
+        //Daten GET
+
+        connection.on('get_update',(data) => {
+            console.log(data);
+
+        });
+
+        //Daten EMIT
+
+        function verarbeitung() {
+
+            connection.emit('update',data);
+        }
+    </script>
+</head>
+<body>
+
+<a href="index.html">Zurück</a>
+</body>
+</html>
