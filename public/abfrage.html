@@ -32,6 +32,7 @@
     //Daten GET (Bekommen)
     /*****************Tabellen bekommen*******************/
     connection.on('get_table', (table) => {
+        document.getElementById('ausgabe').innerHTML = "";
         console.log(table);
         table.forEach((e, i) => {
             console.log("Back: " + e);
