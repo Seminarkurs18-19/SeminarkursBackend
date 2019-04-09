@@ -99,4 +99,4 @@ io.on("connection", (socket) => {
 });
 app.use(express.static('public'));
 
-http.listen(3001);
+http.listen(3000);
