@@ -20,8 +20,8 @@ connection.connect((e) => {
 
 connection.query('SELECT * FROM Artikel WHERE ARTIKEL_ID="7-1234.01"', function (e, rows) {
     if (e) throw e;
-    console.log('Data received from Db:\n');
-    console.log(rows);
+    //console.log('Data received from Db:\n');
+    //console.log(rows);
 });
 
 io.on("connection", (socket) => {
@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
     });
 
     //Einfügen von Daten in Tabelle//
-    socket.on('ask_table', function (data) {
+    socket.on('insert', function (data) {
         console.log(data);
 
         //Verarbeitung
@@ -99,4 +99,4 @@ io.on("connection", (socket) => {
 });
 app.use(express.static('public'));
 
-http.listen(3000);
+http.listen(3001);

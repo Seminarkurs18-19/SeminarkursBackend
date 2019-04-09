@@ -4,43 +4,14 @@
 <head>
     <title>Index</title>
     <link href="stylesheets/stylesheet.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="js/socket.js"></script>
 </head>
-<script>
-    function toggle_1() {
-        console.log("toggle 1");
-        if (document.getElementById(box1).style.display = "inline") document.getElementById(box1).style.display = "none";
-        else {
-            document.getElementById(box1).style.display = "inline"
-        }
-    }
-
-    function toggle_2() {
-        console.log("toggle 2");
-        if (document.getElementById(box2).style.display === "inline") document.getElementById(box2).style.display = "none";
-        else {
-            document.getElementById(box2).style.display = "inline"
-        }
-    }
-</script>
 <body>
 <h1>HTML Index</h1>
 <a href="abfrage.html"> weiter zur Abfrage</a><br>
 <a href="insert.html"> weiter zum Upload</a><br>
 <a href="delete.html"> weiter zum Loeschen</a><br>
-<a href="update.html"> weiter zum Bearbeiten</a><br>
-
-<button onclick="toggle_1()" id="btn1">Div1</button>
-<button onclick="toggle_2()" id="btn2">Div2</button>
-
-<div style="display:inline" id="box1">
-    UNSICHTBAR
-</div>
-
-<div style="display:inline" id="box2">
-    UNSICHTBAR2
-</div>
-
+<a href="insert.html"> weiter zum Bearbeiten</a><br>
 </body>
 
 </html>
