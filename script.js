@@ -1,6 +1,6 @@
 this.ask_table = function (table, connection) {
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM ' + table.table,
+        connection.query('SELECT * FROM ' + table,
             function (e, rows) {
                 if (e) reject(e);
                 resolve(rows);
