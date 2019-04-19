@@ -75,12 +75,13 @@ io.on("connection", (socket) => {
 
     //Einfügen von Daten in Tabelle//
     socket.on('insert', function (data) {
-        console.log(data);
+        console.log("line:78\n" + data);
 
         //Verarbeitung
         script.insert(data, connection).then((result) => {
-            console.log(result);
 
+            console.log(result);
+            console.log("line:82" + result);
             //Ergebnisse zurücksenden
             socket.emit('get_insert', result);
         }).catch((e) => {

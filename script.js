@@ -10,9 +10,13 @@ this.ask_table = function (table, connection) {
 
 
 this.insert = (data, connection) => {
+    var execute = 'INSERT INTO ' + data.insert_table + '(' + data.insert_columns + ') ' +
+        'VALUES(' + data.insert_values + ')';
+    console.log(execute);
+
     return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO ' + data.insert_table + '(' + insert_columns + ') ' +
-            'VALUES (' + insert_values + ')', function (e, rows) {
+        connection.query('INSERT INTO ' + data.insert_table + '(' + data.insert_columns + ') ' +
+            'VALUES(' + data.insert_values + ')', function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });
