@@ -97,6 +97,14 @@ io.on("connection", (socket) => {
             socket.emit('item', rows);
         })
     });
+
+    socket.on('pdf', (data) => {
+        console.log(data);
+        connection.query('SELECT PDF_link FROM ARTIKEL WHERE ARTIKEL_ID = ' + data.artikel_id, (e, rows) => {
+            if (e) throw e;
+            socket.emit('pdf', rows);
+        })
+    });
 });
 app.use(express.static('public'));
 
