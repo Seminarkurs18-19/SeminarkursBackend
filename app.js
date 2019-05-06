@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
 const script = require('./script.js');
+const login = require('./public/js/login.js');
 
 const app = express();
 var http = require('http').Server(app);
@@ -88,8 +89,38 @@ io.on("connection", (socket) => {
             throw e;
         });
     });
-//TODO APP-Abfrage PDF-Links
 
+    //Regestrierung
+    socket.on('registration', function (data) {
+        console.log(data);
+
+        //Verarbeitung
+        login.setPW(data, connection).then((result) => {
+            console.log(result);
+
+            //Ergebnisse zurücksenden
+            socket.emit('registration_result', result);
+        }).catch((e) => {
+            throw e;
+        });
+    });
+
+    //LOGIN
+    socket.on('login', function (data) {
+        console.log(data);
+
+        //Verarbeitung
+        login.getPW(data, connection).then((result) => {
+            console.log(result);
+
+
+            //Ergebnisse zurücksenden
+            socket.emit('login_result', result);
+        }).catch((e) => {
+            throw e;
+        });
+
+    });
     socket.on('item', (data) => {
         console.log(data);
         connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
@@ -97,7 +128,6 @@ io.on("connection", (socket) => {
             socket.emit('item', rows);
         })
     });
-
     socket.on('pdf', (data) => {
         console.log(data);
         connection.query('SELECT PDF_link FROM ARTIKEL WHERE ARTIKEL_ID = ' + data.artikel_id, (e, rows) => {
