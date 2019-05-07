@@ -29,6 +29,11 @@ io.on("connection", (socket) => {
     console.log('Beim Server angekommen (io.on)');
 
 
+    socket.on('login', function (data){
+
+        connection.query('SELECT Benutzername FROM Benutzer WHERE Benutzername="'+data.benutzername+'"')
+    })
+
     //Abfrage der Tabellensuche//
     socket.on('ask_table', function (table) {
         console.log(table);
@@ -90,7 +95,7 @@ io.on("connection", (socket) => {
         });
     });
 
-    //Regestrierung
+    //Registrierung
     socket.on('registration', function (data) {
         console.log(data);
 
@@ -121,6 +126,7 @@ io.on("connection", (socket) => {
         });
 
     });
+
     socket.on('item', (data) => {
         console.log(data);
         connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {

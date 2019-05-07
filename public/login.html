@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="js/socket.js"></script>
+</head>
+<body>
+    <h1>Login Test</h1>
+    <table><tr><td>
+<div id="login">
+    <h2>Login</h2>
+    <p>Benutzername/Email: </p>
+    <input id="Benutzername" type="text"><br>
+    <p>Passwort: </p>
+    <input id="Passwort" type="text"><br><br>
+    <button id="login_btn">Login</button><p id="login_ausgabe">Ausgabe</p>
+</div>
+</td><td style="width: 100px"></td><td>
+<div id="registration">
+    <h2>Registration</h2>
+    <p>Benutzername/Email: </p>
+    <input id="Benutzername_new" type="text"><br>
+    <p>Passwort: </p>
+    <input id="Passwort_new" type="text"><br><br>
+    <button id="registration_btn">Registrieren</button><p id="registration_ausgabe">Ausgabe</p>
+</div>
+</td></tr></table>
+</body>
+</html>
+<script>
+    // Socket
+    var connection = io();
+
+    var lg_BN = "";
+    var lg_PW = "";
+    var data = {};
+
+    var btn_login = document.getElementById("login_btn");
+    var btn_registration = document.getElementById("registration_btn");
+
+    var login_Benutzername = document.getElementById("Benutzername");
+    var login_Passwort = document.getElementById("Passwort");
+    var reg_Benutzername = document.getElementById("Benutzername_new");
+    var reg_Passwort = document.getElementById("Passwort_new");
+
+    var login_ausgabe = document.getElementById("login_ausgabe");
+    var reg_ausgabe = document.getElementById("registration_ausgabe");
+
+    btn_login.addEventListener("click", login);
+    btn_registration.addEventListener("click", registration);
+
+
+    function login(){
+        if(login_Benutzername.value.empty()){
+            login_ausgabe.value = "Das ist ein ungültiger Benutzername"
+        }
+        else if(login_Passwort.value.empty()){
+            login_ausgabe.value = "Das ist ein ungültiges Passwort"
+        }
+        else{
+           login_Benutzername.value = lg_BN;
+           login_Passwort.value = lg_PW;
+           data = {lg_BN, lg_PW};
+           console.log(data);
+           //connection.emit('login', data);
+        }
+    }
+
+    function registration(){
+
+    }
+
+</script>
