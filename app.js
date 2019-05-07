@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
             console.log(result);
 
             //Ergebnisse zurücksenden
-            socket.emit('registration_result', result);
+            socket.emit('get_registration', result);
         }).catch((e) => {
             throw e;
         });
@@ -120,7 +120,7 @@ io.on("connection", (socket) => {
 
 
             //Ergebnisse zurücksenden
-            socket.emit('login_result', result);
+            socket.emit('get_login', result);
         }).catch((e) => {
             throw e;
         });
