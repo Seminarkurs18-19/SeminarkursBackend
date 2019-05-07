@@ -35,6 +35,10 @@
 
     var lg_BN = "";
     var lg_PW = "";
+
+    var reg_BN = "";
+    var reg_PW = "";
+
     var data = {};
 
     var btn_login = document.getElementById("login_btn");
@@ -69,7 +73,22 @@
     }
 
     function registration(){
-
+        if(reg_Benutzername.value.empty()){
+            reg_ausgabe.value = "Das ist ein ungültiger Benutzername"
+        }
+        else if(reg_Passwort.value.empty()){
+            reg_ausgabe.value = "Das ist ein ungültiges Passwort"
+        }
+        else if(reg_Passwort.length == 4){
+            reg_ausgabe.value = "Das Passwort benötigt mindestens 4 Zeichen"
+        }
+        else{
+            reg_Benutzername.value = reg_BN;
+            reg_Passwort.value = reg_PW;
+            data = {reg_BN, reg_PW};
+            console.log(data);
+            //connection.emit('registration', data);
+        }
     }
 
 </script>
