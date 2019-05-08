@@ -48,6 +48,5 @@ this.setPW = (data, connection) => {
             }
             resolve(result);
         });
-
     });
 };
