@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="js/socket.js"></script>
+</head>
+<body>
+    <h1>Login Test</h1>
+    <table><tr><td>
+<div id="login">
+    <h2>Login</h2>
+    <p>Benutzername/Email: </p>
+    <input id="Benutzername" type="text"><br>
+    <p>Passwort: </p>
+    <input id="Passwort" type="text"><br><br>
+    <button id="login_btn">Login</button><p id="login_ausgabe">Ausgabe</p>
+</div>
+</td><td style="width: 100px"></td><td>
+<div id="registration">
+    <h2>Registration</h2>
+    <p>Benutzername/Email: </p>
+    <input id="Benutzername_new" type="text"><br>
+    <p>Passwort: </p>
+    <input id="Passwort_new" type="text"><br><br>
+    <button id="registration_btn">Registrieren</button><p id="registration_ausgabe">Ausgabe</p>
+</div>
+</td></tr></table>
+</body>
+</html>
+<script>
+    // Socket
+    var connection = io();
+
+    var log_BN = "";
+    var log_PW = "";
+
+    var reg_BN = "";
+    var reg_PW = "";
+
+    var data = {};
+
+    var btn_login = document.getElementById("login_btn");
+    var btn_registration = document.getElementById("registration_btn");
+
+    var login_Benutzername = document.getElementById("Benutzername");
+    var login_Passwort = document.getElementById("Passwort");
+    var reg_Benutzername = document.getElementById("Benutzername_new");
+    var reg_Passwort = document.getElementById("Passwort_new");
+
+    var login_ausgabe = document.getElementById("login_ausgabe");
+    var reg_ausgabe = document.getElementById("registration_ausgabe");
+
+    btn_login.addEventListener("click", login);
+    btn_registration.addEventListener("click", registration);
+
+    //EMITS
+    function login(){
+        if(login_Benutzername.value.length == 0){
+            login_ausgabe.innerText = "Das ist ein ungültiger Benutzername"
+        }
+        else if(login_Passwort.value.length == 0){
+            login_ausgabe.innerText = "Das ist ein ungültiges Passwort"
+        }
+        else{
+           log_BN = login_Benutzername.value;
+           log_PW = login_Passwort.value;
+           data = {log_BN, log_PW};
+           console.log(data);
+           connection.emit('login', data);
+        }
+    }
+
+    function registration(){
+        if(reg_Benutzername.value.length == 0){
+            reg_ausgabe.innerText = "Das ist ein ungültiger Benutzername"
+        }
+        else if(reg_Passwort.value.length == 0){
+            reg_ausgabe.innerText = "Das ist ein ungültiges Passwort"
+        }
+        else{
+            reg_BN = reg_Benutzername.value;
+            reg_PW = reg_Passwort.value;
+            data = {reg_BN, reg_PW};
+            console.log(data);
+            connection.emit('registration', data);
+        }
+    }
+
+    //GETS
+    connection.on('get_login'), (data) =>{
+        console.log(data);
+        login_ausgabe.innerText = data.result;
+    }
+    connection.on('get_registration'), (data) =>{
+        console.log(data);
+        reg_ausgabe.innerText = data.result;
+    }
+</script>

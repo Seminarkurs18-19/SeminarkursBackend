@@ -10,9 +10,9 @@ de<!DOCTYPE html>
 <h1>Einfügen Test</h1>
 <select id="tabelle">
     <option value=""></option>
-    <option value="Indi_Artikel">Individueller Artikel(Item)</option>
+    <option value="Item_from_Artikel">Individueller Artikel(Item)</option>
     <option value="Artikel">Artikel</option>
-    <option value="Kommentar">Kommentar</option>
+    <option value="Comment_on_Item">Kommentar</option>
 </select>
 <br><br>
 <div id="indi_Artikel_box" STYLE="visibility: hidden">
@@ -30,6 +30,8 @@ de<!DOCTYPE html>
         id="input_comment" type="text"> ItemID:<input id="inputc_item_id" type="text">
 </div>
 <br>
+<div id="result"></div>
+<br>
 <button id="verarbeitung">Hinzufügen</button>
 <a href="index.html">Zurück</a>
 </body>
@@ -38,13 +40,14 @@ de<!DOCTYPE html>
     var connection = io();
     //Daten GET
 
-    connection.on('get_update', (data) => {
-        console.log(data);
+    connection.on('get_insert', (data) => {
+        console.log("line:44" + data);
+        document.getElementById('result').innerHTML = data;
 
     });
 
     //Daten EMIT
-    let data = '';
+    let data = {};
     var insert_table = "";
     var insert_values = "";
     var insert_columns = "";
@@ -74,26 +77,26 @@ de<!DOCTYPE html>
         var new_value = table.value;
         //console.log(new_value);
         switch (new_value) {
-            case "Indi_Artikel":
+            case "Item_from_Artikel":
                 console.log(new_value);
                 div_artikel.style.visibility = "hidden";
                 div_indi_artikel.style.visibility = "visible";
                 div_kommentar.style.visibility = "hidden";
-                insert_columns = "insert_columns:{\n ITEM_ID,\n ARTIKEL_ID\n}";
+                insert_columns = "ITEM_ID, ARTIKEL_ID";
                 break;
             case "Artikel":
                 console.log(new_value);
                 div_artikel.style.visibility = "visible";
                 div_indi_artikel.style.visibility = "hidden";
                 div_kommentar.style.visibility = "hidden";
-                insert_columns = "insert_columns:{\n ARTIKEL_ID,\n Art_Bez,\n PDF_link\n}";
+                insert_columns = "ARTIKEL_ID, Art_Bez, PDF_link";
                 break;
-            case "Kommentar":
+            case "Comment_on_Item":
                 console.log(new_value);
                 div_artikel.style.visibility = "hidden";
                 div_indi_artikel.style.visibility = "hidden";
                 div_kommentar.style.visibility = "visible";
-                insert_columns = "insert_columns:{\n COMMENT_ID,\n Com_Bez,\n Comment,\n ITEM_ID\n}";
+                insert_columns = "COMMENT_ID, Com_Bez,Comment, ITEM_ID";
                 break;
             default:
                 console.log("nix");
@@ -105,26 +108,27 @@ de<!DOCTYPE html>
     }
 
     function start() {
+        document.getElementById('result').innerHTML = "";
         console.log("klick");
         var new_table_value = table.value;
         console.log(new_table_value);
-        insert_table = "insert_table:{\n " + new_table_value + "\n}";
+        insert_table = new_table_value;
         console.log(insert_table);
         console.log(insert_columns);
         switch (new_table_value) {
-            case "Indi_Artikel":
-                insert_values = "insert_values:{\n " + inputi_item_id.value + ",\n " + inputi_article_id.value + "\n}";
+            case "Item_from_Artikel":
+                insert_values = '"' + inputi_item_id.value + '", "' + inputi_article_id.value + '"';
                 break;
             case "Artikel":
-                insert_values = "insert_values:{\n " + inputa_article_id.value + ",\n " + input_article_bez.value + ",\n " + input_pdf_link.value + "\n}";
+                insert_values = '"' + inputa_article_id.value + '", "' + input_article_bez.value + '", "' + input_pdf_link.value + '"';
                 break;
-            case "Kommentar":
-                insert_values = "insert_values:{\n " + input_comment_id.value + ",\n " + input_comment_bez.value + ",\n " + input_comment.value + ",\n " + inputc_item_id.value + "\n}";
+            case "Comment_on_Item":
+                insert_values = '"' + input_comment_id.value + '", "' + input_comment_bez.value + '", "' + input_comment.value + '", "' + inputc_item_id.value + '"';
                 break;
             default:
                 insert_values = "";
         }
-        data = "[ " + insert_table + "\n" + insert_columns + "\n" + insert_values + "]";
+        data = {insert_table, insert_columns, insert_values};
 
         console.log(data);
         connection.emit('insert', data);

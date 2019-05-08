@@ -10,9 +10,13 @@ this.ask_table = function (table, connection) {
 
 
 this.insert = (data, connection) => {
+    var execute = 'INSERT INTO ' + data.insert_table + '(' + data.insert_columns + ') ' +
+        'VALUES(' + data.insert_values + ')';
+    console.log(execute);
+
     return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO ' + data.insert_table + '(' + insert_columns + ') ' +
-            'VALUES (' + insert_values + ')', function (e, rows) {
+        connection.query('INSERT INTO ' + data.insert_table + '(' + data.insert_columns + ') ' +
+            'VALUES(' + data.insert_values + ')', function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });
@@ -22,7 +26,7 @@ this.insert = (data, connection) => {
 //TODO delete_condition muss vorab erstellt werden
 this.delete = (data, connection) => {
     return new Promise((resolve, reject) => {
-        connection.query('DELETE FROM ' + data.delete_table + ' WHERE "' +
+        connection.query('DELETE FROM "' + data.delete_table + '" WHERE "' +
             data.delete_condition + '"', function (e, rows) {
             if (e) reject(e);
             resolve(rows);
@@ -41,10 +45,3 @@ this.update = (data, connection) => {
         });
     })
 };
-
-
-const a = {
-    insert_table: ['A', 'B', 'C'],
-    insert_columns: ['A', 'B', 'C']
-};
-a.insert_columns = ['A', 'B', 'C'];
