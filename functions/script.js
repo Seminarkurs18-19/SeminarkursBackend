@@ -26,8 +26,8 @@ this.insert = (data, connection) => {
 //TODO delete_condition muss vorab erstellt werden
 this.delete = (data, connection) => {
     return new Promise((resolve, reject) => {
-        connection.query('DELETE FROM ' + data.delete_table + ' WHERE ' +
-            data.delete_condition, function (e, rows) {
+        connection.query('DELETE FROM "' + data.delete_table + '" WHERE "' +
+            data.delete_condition + '"', function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });
