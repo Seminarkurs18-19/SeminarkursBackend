@@ -1,8 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require("mysql");
-const script = require('./script.js');
-const login = require('./public/js/login.js');
+const script = require('./functions/script.js');
+const login = require('./functions/login.js');
 
 const app = express();
 var http = require('http').Server(app);
