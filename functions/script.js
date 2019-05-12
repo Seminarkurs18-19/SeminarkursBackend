@@ -33,6 +33,7 @@ this.delete = (data, connection) => {
         });
     })
 };
+
 //TODO update_rowa_values zusammenngesetzter Befehl aus n * (Spalte = "Value") muss vorab abgefragt werden
 //TODO update_condition ist "not needed", deshalb das WHERE innerhalb des Befehls, WENN es nötig ist!
 
