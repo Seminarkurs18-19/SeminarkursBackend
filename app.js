@@ -8,13 +8,14 @@ const app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-const connection = mysql.createConnection({
+this.connection = mysql.createConnection({
     host: "alexkutschera.de",
     user: "seminarkurs",
     password: "?2Jyrl04",
     database: "seminarkurs"
 });
-connection.connect((e) => {
+
+this.connection.connect((e) => {
     if (e) throw e;
     console.log('connected');
 });
@@ -22,13 +23,14 @@ connection.connect((e) => {
 io.on("connection", (socket) => {
     console.log('Beim Server angekommen (io.on)');
 
+
     //Abfrage der Tabellensuche//
     /* Benötigt data.table */
     socket.on('ask_table', function (table) {
         console.log(table);
 
         //Verarbeitung
-        script.ask_table(table, connection).then((result) => {
+        script.ask_table(table, this.connection).then((result) => {
             console.log(result);
 
             //Ergebnisse zurücksenden
@@ -44,7 +46,7 @@ io.on("connection", (socket) => {
         console.log(data);
 
         //Verarbeitung
-        script.delete(data, connection).then((result) => {
+        script.delete(data, this.connection).then((result) => {
             console.log(result);
 
             //Ergebnisse zurücksenden
@@ -60,7 +62,7 @@ io.on("connection", (socket) => {
         console.log("line:78\n" + data);
 
         //Verarbeitung
-        script.insert(data, connection).then((result) => {
+        script.insert(data, this.connection).then((result) => {
 
             console.log(result);
             console.log("line:82" + result);
@@ -78,7 +80,7 @@ io.on("connection", (socket) => {
         console.log(data);
 
         //Verarbeitung
-        login.setPW(data, connection).then((result) => {
+        login.setPW(data, this.connection).then((result) => {
             console.log(result);
 
             //Ergebnisse zurücksenden
@@ -95,7 +97,7 @@ io.on("connection", (socket) => {
         console.log(data);
 
         //Verarbeitung
-        login.getPW(data, connection).then((result) => {
+        login.getPW(data, this.connection).then((result) => {
             console.log(result);
 
 
@@ -109,7 +111,7 @@ io.on("connection", (socket) => {
 
     /*socket.on('item', (data) => {
         console.log(data);
-        connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
+        this.connection.query('SELECT Item_from_Artikel.ITEM_ID, Artikel.ARTIKEL_ID, Artikel.Art_Bez FROM Item_from_Artikel INNER JOIN Artikel ON Item_from_Artikel.ARTIKEL_ID = Artikel.ARTIKEL_ID WHERE Item_from_Artikel.ITEM_ID = ' + data.ITEM_ID, (e, rows) => {
             if (e) throw e;
             socket.emit('item', rows);
         })
@@ -120,7 +122,7 @@ io.on("connection", (socket) => {
     /* Gibt data.pdf_link zurück */
     socket.on('pdf', (data) => {
         console.log(data);
-        connection.query('SELECT PDF_link FROM ARTIKEL WHERE ARTIKEL_ID = ' + data.artikel_id, (e, rows) => {
+        this.connection.query('SELECT PDF_link FROM ARTIKEL WHERE ARTIKEL_ID = ' + data.artikel_id, (e, rows) => {
             if (e) throw e;
             socket.emit('pdf', rows);
         })

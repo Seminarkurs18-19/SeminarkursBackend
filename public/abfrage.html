@@ -19,6 +19,17 @@
         <option value="Artikel">Artikel</option>
         <option value="Kommentar">Kommentar</option>
     </select>
+    <button onclick="verarbeitung()" id="verarbeitung">Suchen</button>
+</form>
+<br>
+<div id="ausgabe"></div>
+
+<a href="index.html">Zurück</a>
+<script>
+    //Verbindung herstellen
+    var connection = io();
+    var table;
+
     /*****************Tabellen bekommen*******************/
     connection.on('get_table', (table) => {
         document.getElementById('ausgabe').innerHTML = "";
@@ -30,21 +41,10 @@
     });
 
     //Daten EMIT (Schicken)spalte
-
-    /*****************Tabellenabfrage*******************/
-    var table;
+    /*****************Tabellen abschicken*******************/
 
     document.getElementById('verarbeitung').onclick = function (e) {
-    <button onclick="verarbeitung()" id="verarbeitung">Suchen</button>
-            </form>
-            <br>
-            <div id="ausgabe"></div>
 
-            <a href="index.html">Zurück</a>
-
-            <script>
-        //Verbindung herstellen
-        var connection = io();
         //Daten GET (Bekommen)
         e.preventDefault();
         console.log("klick");
