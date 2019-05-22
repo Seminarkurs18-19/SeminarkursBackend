@@ -29,7 +29,7 @@
 <script>
     //Verbindung herstellen
     var connection = io();
-    var table;
+    var data = {};
 
     var txt_session = document.getElementById("session_id");
 
@@ -56,10 +56,12 @@
         if (tabelle === "Artikel") table = "Artikel";
         else if (tabelle === "Indi_Artikel") table = "Item_from_Artikel";
         else if (tabelle === "Kommentar") table = "Comment_on_Item";
-        table.Sitzungs_ID = txt_session.value;
-        console.log(table);
+
+        Sitzungs_ID = txt_session.value;
+        data = {table, Sitzungs_ID};
+        console.log(data);
         //Abschicken der Tabelle
-        connection.emit('ask_table', table);
+        connection.emit('ask_table', data);
     };
 </script>
 </body>
