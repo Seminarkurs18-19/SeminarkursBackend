@@ -18,7 +18,8 @@
         <option value="Indi_Artikel">Individueller Artikel(Item)</option>
         <option value="Artikel">Artikel</option>
         <option value="Kommentar">Kommentar</option>
-    </select>
+    </select><br><br>
+    SessionID:<input type="text" id="session_id"><br><br>
     <button onclick="verarbeitung()" id="verarbeitung">Suchen</button>
 </form>
 <br>
@@ -28,7 +29,9 @@
 <script>
     //Verbindung herstellen
     var connection = io();
-    var table;
+    var data = {};
+
+    var txt_session = document.getElementById("session_id");
 
     /*****************Tabellen bekommen*******************/
     connection.on('get_table', (table) => {
@@ -54,8 +57,11 @@
         else if (tabelle === "Indi_Artikel") table = "Item_from_Artikel";
         else if (tabelle === "Kommentar") table = "Comment_on_Item";
 
+        Sitzungs_ID = txt_session.value;
+        data = {table, Sitzungs_ID};
+        console.log(data);
         //Abschicken der Tabelle
-        connection.emit('ask_table', table);
+        connection.emit('ask_table', data);
     };
 </script>
 </body>

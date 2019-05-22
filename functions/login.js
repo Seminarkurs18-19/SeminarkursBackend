@@ -7,7 +7,7 @@ var myPlaintextPassword = '';
 
 this.getPW = (data) => {
     return new Promise((resolve, reject) => {
-        let response = [];
+        let response = {};
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.log_BN], function (e, db_res) {
             if (e || db_res.length >= 0) reject(e);
             bcrypt.compare(data.log_PW, db_res[0]['Passwort'], function (err, res) {
@@ -32,16 +32,16 @@ this.getPW = (data) => {
 };
 
 
-this.setPW = (data, connection) => {
+this.setPW = (data) => {
     //Benutzer prüfen
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM Benutzer WHERE Benutzername = "' + data.reg_BN + '"', function (e, rows) {
+        app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = "' + data.reg_BN + '"', function (e, rows) {
             if (e) reject(e);
             let result = {};
             if (rows.length === 0) {
                 //Passwort und Benutzer erstellen
                 bcrypt.hash(data.reg_PW, saltRounds, function (err, hash) {
-                    connection.query('INSERT INTO Benutzer (Benutzername, Passwort) VALUES(?, ?)', [data.reg_BN, hash], function (e) {
+                    app.connection.query('INSERT INTO Benutzer (Benutzername, Passwort) VALUES(?, ?)', [data.reg_BN, hash], function (e) {
                         if (e) reject(e);
                     })
                 });
@@ -55,14 +55,3 @@ this.setPW = (data, connection) => {
         });
     });
 };
-
-/*async function checkUser(username, password) {
-    //... fetch user from a db etc.
-
-    const match = await bcrypt.compare(password, user.passwordHash);
-
-    if (match) {
-        //login
-    }
-}*/
-
