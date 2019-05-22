@@ -3,6 +3,7 @@ const app = require('../app.js');
 
 this.ask_table = function (table) {
     return new Promise((resolve, reject) => {
+        console.log(table);
         session.checkSessionId(table.Sitzungs_ID).then((res) => {
             if (res == 1 || res == 2 || res == 3) {
                 app.connection.query('SELECT * FROM ' + table,
