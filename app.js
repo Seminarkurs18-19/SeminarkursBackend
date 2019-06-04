@@ -29,6 +29,20 @@ this.connection.query('DELETE FROM Sitzungen WHERE Benutzer_Nr > 0', function (e
 io.on("connection", (socket) => {
     console.log('Beim Server angekommen (io.on)');
 
+    //Input= Item_ID (durch Scannen) Output= Daten zum Item
+    socket.on('get_item_by_item', function (data) {
+        console.log(data);
+        this.connection.query('SELECT ARTIKEL_ID FROM Item_from_Artikel WHERE ITEM_ID = ?', [data.ITEM_ID], (e, rows) => {
+            if (e) throw e;
+            console.log(rows);
+            this.connection.query('SELECT * FROM Artikel WHERE ARTIKEL_ID = ?', [rows.ARTIKEL_ID], (e, result) => {
+                if (e) throw e;
+                console.log(result);
+                socket.emit('send_item_by_item', result);
+            });
+        });
+    });
+
     //Nachricht weiterleiten (An alle)
     socket.on('chat_emit', function (data) {
         io.sockets.emit('chat_send', data);
