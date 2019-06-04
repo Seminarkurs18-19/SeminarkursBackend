@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test-Chat</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <link href="stylesheets/chat.css" rel="stylesheet">
+    <script src="js/socket.js"></script>
+</head>
+<body>
+<div id="big-chat">
+    <div id="chat-window">
+        <div id="output"></div>
+    </div>
+    <input id="handle" placeholder="Name" type="text">
+    <input id="message" placeholder="Nachricht" type="text">
+    <button id="send">Versenden</button>
+</div>
+<br><br>
+<a href="index.html">Zurück</a>
+</body>
+<script>
+    var connection = io();
+
+    //Setup
+    var message = document.getElementById('message');
+    var handle = document.getElementById('handle');
+    var btn = document.getElementById('send');
+    var output = document.getElementById('output');
+
+    btn.addEventListener('click', function () {
+        connection.emit('chat_emit', {
+            message: message.value,
+            handle: handle.value
+        });
+    });
+
+    connection.on('chat_send', function (data) {
+        output.innerHTML += '<p><strong>' + data.handle +
+            ':</strong>' + data.message + '</p>';
+    });
+
+</script>
+</html>
