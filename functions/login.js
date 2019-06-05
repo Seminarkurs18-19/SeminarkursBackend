@@ -9,7 +9,7 @@ this.getPW = (data) => {
     return new Promise((resolve, reject) => {
         let response = {};
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.log_BN], function (e, db_res) {
-            if (e || db_res.length >= 0) reject(e);
+            if (e || db_res.length <= 0) reject(e);
             bcrypt.compare(data.log_PW, db_res[0]['Passwort'], function (err, res) {
                 if (err) reject(e);
                 if (res) {
