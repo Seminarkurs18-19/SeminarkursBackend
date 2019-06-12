@@ -27,6 +27,7 @@
 
 <a href="index.html">Zurück</a>
 <script>
+
     //Verbindung herstellen
     var connection = io();
     var data = {};
@@ -37,10 +38,8 @@
     connection.on('get_table', (table) => {
         document.getElementById('ausgabe').innerHTML = "";
         console.log(table);
-        table.forEach((e, i) => {
-            console.log("Back: " + e);
-            document.getElementById('ausgabe').innerHTML += "<p>" + e.ITEM_ID + ": " + e.ARTIKEL_ID + "</p>";
-        })
+        document.getElementById('ausgabe').innerHTML += '<p>' + table.result + '</p>';
+
     });
 
     //Daten EMIT (Schicken)spalte
