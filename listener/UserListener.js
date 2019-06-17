@@ -4,7 +4,7 @@ const login = require('../functions/Login.js');
 
 this.listenForUser = function (socket) {
 
-    socket.on('registration', function (data) {
+    socket.on('user.registration', function (data) {
         console.log(data);
 
         //Verarbeitung
@@ -12,22 +12,24 @@ this.listenForUser = function (socket) {
             console.log(result);
 
             //Ergebnisse zurücksenden
-            socket.emit('get_registration', result);
+            socket.emit('user.registration.result', result);
         }).catch((e) => {
             throw e;
         });
     });
 
-    socket.on('login', function (data) {
+    socket.on('user.login', function (data) {
+        console.log("1. data:");
         console.log(data);
 
         //Verarbeitung
         login.getPW(data).then((result) => {
+            console.log("2. data:");
             console.log(result);
 
 
             //Ergebnisse zurücksenden
-            socket.emit('get_login', result);
+            socket.emit('user.login.result', result);
         }).catch((e) => {
             throw e;
         });
