@@ -22,7 +22,7 @@ this.insert = (table, columns, values) => {
 
 this.delete = (table, condition) => {
     return new Promise((resolve, reject) => {
-        app.connection.query('DELETE FROM ? WHERE ?', [table, condition], function (e, rows) {
+        app.connection.query(`DELETE FROM ${table} WHERE ?`, [condition], function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });
@@ -31,7 +31,7 @@ this.delete = (table, condition) => {
 
 this.update = (table, columnsAndValues, condition) => {
     return new Promise((resolve, reject) => {
-        app.connection.query('UPDATE ? SET ? WHERE ?', [table, columnsAndValues, condition], function (e, rows) {
+        app.connection.query(`UPDATE ${table} SET ${columnsAndValues} WHERE ?`, [condition], function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });

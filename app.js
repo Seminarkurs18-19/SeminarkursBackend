@@ -34,4 +34,14 @@ this.io.on("connection", (socket) => {
 });
 
 app.use(express.static('public'));
-http.listen(3000);
+
+app.get('/pdf/:artikel_id', (req, res) => {
+    if (req.query.session_id !== undefined && checkSession(req.query.session_id)) {
+        fs.readFile('path', (err, data) => {
+            if (err) res.end();
+            res.contentType('application/pdf');
+            res.send(data);
+        })
+    }
+});
+http.listen(3001);
