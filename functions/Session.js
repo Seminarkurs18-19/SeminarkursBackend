@@ -68,6 +68,9 @@ this.checkSessionId = function (SessionID, Type) {
                         case "support.away":
                             neededRole = [2];
                             break;
+                        case "update.role":
+                            neededRole = [1, 2];
+                            break;
 
                         //Space for more Requests
                         default:

@@ -84,4 +84,29 @@ this.listenForSupport = function (socket) {
             }
         })
     });
+    socket.on('update.role', function (data) {
+        session.checkSessionId(data.session_id, "update.role").then((res) => {
+            if (res) {
+                var condition = String('Benutzer_Nr = "' + data.user + '" OR Benutzername = "' + data.user + '"'),
+                    columnsAndValues = 'Rollen_Nr = "' + data.role + '"',
+                    choosedTable = 'Benutzer';
+                let sqlData = {columnsAndValues, choosedTable, condition};
+                databaseRequest.update(sqlData).then((result) => {
+                    result = "Rolle wurde aktualisiert";
+                    console.log("Result für 'update.role':");
+                    console.log(result);
+                    message = {result};
+                    socket.emit('update.role.result', message)
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'update.role':");
+                console.log(result);
+                var message = {result};
+                socket.emit('update.role.result', message)
+            }
+        })
+    });
 };
