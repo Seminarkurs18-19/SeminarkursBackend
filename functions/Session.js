@@ -71,6 +71,15 @@ this.checkSessionId = function (SessionID, Type) {
                         case "update.role":
                             neededRole = [1, 2];
                             break;
+                        case "user.comment":
+                            neededRole = [1, 2, 3, 4];
+                            break;
+                        case "delete.comment":
+                            neededRole = [1, 2];
+                            break;
+                        case "get.comment.item":
+                            neededRole = [1, 2, 3, 4];
+                            break;
 
                         //Space for more Requests
                         default:

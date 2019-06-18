@@ -1,5 +1,4 @@
 const app = require('../app.js');
-const script = require('../functions/DatabaseRequest.js');
 const session = require('../functions/Session.js');
 const databaseRequest = require('../functions/DatabaseRequest.js');
 
@@ -106,6 +105,31 @@ this.listenForSupport = function (socket) {
                 console.log(result);
                 var message = {result};
                 socket.emit('update.role.result', message)
+            }
+        })
+    });
+    socket.on('delete.comment', function (data) {
+        session.checkSessionId(data.session_id, "delete.comment").then((res) => {
+            if (res) {
+                var condition = String('COMMENT_ID = "' + data.condition + '"'),
+                    choosedTable = 'Comment_on_Item';
+
+                let sqlData = {choosedTable, condition};
+                databaseRequest.delete(sqlData).then((result) => {
+                    result = "Kommentar wurde gelöscht";
+                    console.log("Result für 'delete.comment':");
+                    console.log(result);
+                    message = {result};
+                    socket.emit('delete.comment.result', message)
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'delete.comment':");
+                console.log(result);
+                var message = {result};
+                socket.emit('delete.comment.result', message)
             }
         })
     });

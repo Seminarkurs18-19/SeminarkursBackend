@@ -86,4 +86,28 @@ this.listenForItems = function (socket) {
             }
         })
     });
+    socket.on('get.comment.item', function (data) {
+        session.checkSessionId(data.session_id, "get.comment.item").then((res) => {
+            if (res) {
+                var condition = String('ITEM_ID = "' + data.condition + '"'),
+                    choosedTable = 'Comment_on_Item';
+                choosedColumns = '*';
+                let sqlData = {choosedTable, condition, choosedColumns};
+                databaseRequest.select(sqlData).then((result) => {
+                    console.log("Result für 'get.comment.item':");
+                    message = {result};
+                    console.log(message);
+                    socket.emit('get.comment.item.result', message)
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'get.comment.item':");
+                console.log(result);
+                var message = {result};
+                socket.emit('get.comment.item.result', message)
+            }
+        })
+    });
 };
