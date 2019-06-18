@@ -3,7 +3,7 @@ const app = require('../app.js');
 const session = require('./Session.js');
 const saltRounds = 10;
 
-this.getPW = (data) => {
+this.login = (data) => {
     let response = {};
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.log_BN], function (e, db_res) {
@@ -13,7 +13,6 @@ this.getPW = (data) => {
                 if (res) {
                     response.result = "Passwort stimmt überein";
                     session.generateSessionId(db_res[0]['Benutzer_Nr']).then((sessionID) => {
-                        console.log(sessionID);
                         response.session_id = sessionID;
                         resolve(response);
                     });
@@ -26,7 +25,7 @@ this.getPW = (data) => {
     })
 };
 
-this.setPW = (data) => {
+this.registration = (data) => {
     //Benutzer prüfen
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.reg_BN], function (e, rows) {

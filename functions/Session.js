@@ -27,58 +27,59 @@ this.generateSessionId = function (BenutzerNr) {
 
 this.checkSessionId = function (SessionID, Type) {
     return new Promise((resolve, reject) => {
-        console.log('SessionID: ' + SessionID);
+        //console.log('SessionID: ' + SessionID);
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
             if (UserID.length > 0) {
-                app.connection.query('SELECT Rollen_Nr FROM Benutzer WHERE Benutzer_Nr = ?', [UserID.Benutzer_Nr], function (er, rows) {
+                app.connection.query('SELECT Rollen_Nr FROM Benutzer WHERE Benutzer_Nr = ?', [UserID[0]["Benutzer_Nr"]], function (er, rows) {
                     if (er) reject(er);
                     var neededRole = 0, role = 0, result = false;
-                    switch (rows.Rollen_Nr) {
-                        case 1:
+                    switch (rows[0]["Rollen_Nr"]) {
+                        case "1":
                             role = 1;
                             break;
-                        case 2:
+                        case "2":
                             role = 2;
                             break;
-                        case 3:
+                        case "3":
                             role = 3;
                             break;
-                        case 4:
+                        case "4":
                             role = 4;
                             break;
                         default:
-                            alert("Keine Rolle ist an diesen Benutzer vergeben");
+                            console.log("Keine Rolle ist an diesen Benutzer vergeben");
                             result = false;
                             resolve(result);
                     }
                     switch (Type) {
-                        case "Suche":
-                            neededRole = 0;
+                        case "item.search":
+                            neededRole = [1, 2, 3, 4];
                             break;
-                        case "Ticketanfrage":
-                            neededRole = 0;
+                        case "item.get":
+                            neededRole = [1, 2, 3, 4];
                             break;
-                        case "...":
-                            neededRole = 0;
+                        case "artikel.get":
+                            neededRole = [1, 2, 3, 4];
                             break;
                         default:
-                            alert("Anfragentype ist nicht vergeben");
+                            console.log("Anfragentype ist nicht vergeben");
                             result = false;
                             resolve(result);
                     }
-                    if (role === neededRole) {
-                        console.log("Zugriff erlaubt");
+                    if (role === neededRole[0] || role === neededRole[1] || role === neededRole[2] || role === neededRole[3]) {
+
+                        console.log("SessionID: Zugriff erlaubt");
                         result = true;
                         resolve(result);
                     } else {
-                        console.log("Zugriff nicht erlaubt");
+                        console.log("SessionID: Zugriff nicht erlaubt");
                         result = false;
                         resolve(result);
                     }
                 })
             } else {
-                alert("Fehler bei der Benutzerindentifikation");
+                console.log("Fehler bei der Benutzerindentifikation");
                 result = false;
                 resolve(result);
             }
