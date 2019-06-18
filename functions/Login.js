@@ -34,7 +34,7 @@ this.registration = (data) => {
             if (rows.length === 0) {
                 //Passwort und Benutzer erstellen
                 bcrypt.hash(data.reg_PW, saltRounds, function (err, hash) {
-                    app.connection.query('INSERT INTO Benutzer (Benutzername, Passwort, Rollen_Nr) VALUES(?, ?, 4)', [data.reg_BN, hash], function (e) {
+                    app.connection.query('INSERT INTO Benutzer (Benutzername, Passwort, Rollen_Nr, Status) VALUES(?, ?, 4, "not needed")', [data.reg_BN, hash], function (e) {
                         if (e) reject(e);
                     })
                 });

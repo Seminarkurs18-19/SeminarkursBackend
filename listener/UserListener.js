@@ -15,7 +15,6 @@ this.listenForUser = function (socket) {
             throw e;
         });
     });
-
     socket.on('user.login', function (data) {
         //Verarbeitung
         login.login(data).then((result) => {
@@ -28,6 +27,7 @@ this.listenForUser = function (socket) {
         });
 
     });
+
 };
 
 

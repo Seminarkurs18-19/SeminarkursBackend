@@ -5,7 +5,6 @@ const session = require('../functions/Session.js');
 
 this.listenForItems = function (socket) {
 
-
     socket.on('artikel.get', function (data) {
         session.checkSessionId(data.session_id, "artikel.get").then((res) => {
             if (res) {

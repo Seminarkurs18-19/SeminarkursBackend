@@ -62,6 +62,14 @@ this.checkSessionId = function (SessionID, Type) {
                         case "artikel.get":
                             neededRole = [1, 2, 3, 4];
                             break;
+                        case "support.available":
+                            neededRole = [2];
+                            break;
+                        case "support.away":
+                            neededRole = [2];
+                            break;
+
+                        //Space for more Requests
                         default:
                             console.log("Anfragentype ist nicht vergeben");
                             result = false;
