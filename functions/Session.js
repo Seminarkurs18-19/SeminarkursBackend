@@ -80,6 +80,9 @@ this.checkSessionId = function (SessionID, Type) {
                         case "get.comment.item":
                             neededRole = [1, 2, 3, 4];
                             break;
+                        case "pdf.get":
+                            neededRole = [1, 2, 3, 4];
+                            break;
 
                         //Space for more Requests
                         default:
@@ -100,8 +103,7 @@ this.checkSessionId = function (SessionID, Type) {
                 })
             } else {
                 console.log("Fehler bei der Benutzerindentifikation");
-                result = false;
-                resolve(result);
+                resolve(false);
             }
         })
     });

@@ -97,6 +97,7 @@ this.listenForItems = function (socket) {
                     console.log("Result für 'get.comment.item':");
                     message = {result};
                     console.log(message);
+                    con;
                     socket.emit('get.comment.item.result', message)
                 }).catch((e) => {
                     throw e;
