@@ -4,6 +4,8 @@ const mysql = require("mysql");
 const UserListen = require('./listener/UserListener.js');
 const SupportListen = require('./listener/SupportListener.js');
 const DatabaseRequestListen = require('./listener/DatabaseRequestListener.js');
+const session = require('./functions/Session.js');
+var fs = require('fs');
 
 const app = express();
 var http = require('http').Server(app);
@@ -36,12 +38,22 @@ this.io.on("connection", (socket) => {
 app.use(express.static('public'));
 
 app.get('/pdf/:artikel_id', (req, res) => {
-    if (req.query.session_id !== undefined && checkSession(req.query.session_id)) {
-        fs.readFile('path', (err, data) => {
-            if (err) res.end();
-            res.contentType('application/pdf');
-            res.send(data);
+    res.contentType('application/pdf');
+    if (req.query.session_id !== undefined && session.checkSessionId(req.query.session_id, "pdf.get")) {
+        fs.readFile(`pdf/${req.params.artikel_id}.pdf`, (err, data) => {
+            if (err) {
+                console.error(err);
+            }
+            res.write(data);
+            console.log("Result für 'pdf.get':");
+            console.log("Zugriff erfolgreich");
+            res.send();
         })
+    } else {
+        res.write();
+        console.log("Result für 'pdf.get':");
+        console.log("Session verweigert");
+        res.send();
     }
 });
 http.listen(3000);

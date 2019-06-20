@@ -2,6 +2,7 @@ const app = require('../app.js');
 const login = require('../functions/Login.js');
 const session = require('../functions/Session.js');
 const databaseRequest = require('../functions/DatabaseRequest.js');
+const fs = require('fs');
 
 this.listenForUser = function (socket) {
 
@@ -31,25 +32,36 @@ this.listenForUser = function (socket) {
     socket.on('user.comment', function (data) {
         session.checkSessionId(data.session_id, "user.comment").then((res) => {
             if (res) {
-                var heute = new Date();
-                var date = heute.getDay() + '.' + heute.getMonth() + '.' + heute.getFullYear() + ', ' +
-                    heute.getHours() + ':' + heute.getMinutes() + ':' + heute.getSeconds();
+                var bezeichnung = "";
+                fs.readFile('randoms.txt', 'utf8', ((err, data1) => {
+                    if (err) bezeichnung = "Kann nicht's";
+                    databaseRequest.select({
+                        choosedTable: 'Benutzer b, Sitzungen s',
+                        choosedColumns: 'b.Benutzername',
+                        condition: `s.Sitzungs_ID = "${data.session_id}" AND b.Benutzer_Nr = s.Benutzer_Nr`
+                    }).then((result) => {
+                        var randoms = data1.split(';');
+                        bezeichnung = result[0]['Benutzername'] + ', ' + Math.round(Math.random() * 50 + 10) + ', ' + randoms[Math.round(Math.random() * randoms.length)];
+                        var values = String('"' + bezeichnung + '", "' + data.kommentar +
+                            '", "' + data.item + '"'),
+                            columns = 'Com_Bez, Comment, ITEM_ID',
+                            choosedTable = 'Comment_on_Item';
+                        let sqlData = {columns, choosedTable, values};
+                        databaseRequest.insert(sqlData).then((result) => {
+                            result = "Kommentar wurde gespeichert";
+                            console.log("Result für 'user.comment':");
+                            console.log(result);
+                            var message = {result};
+                            socket.emit('user.comment.result', message)
 
-                var values = String('"' + data.bezeichnung + '", "' + data.kommentar +
-                    '", "' + date + '", "' + data.item + '"'),
-                    columns = 'Com_Bez, Comment, Timestomp, ITEM_ID',
-                    choosedTable = 'Comment_on_Item';
-                let sqlData = {columns, choosedTable, values};
-                databaseRequest.insert(sqlData).then((result) => {
-                    result = "Kommentar wurde gespeichert";
-                    console.log("Result für 'user.comment':");
-                    console.log(result);
-                    var message = {result};
-                    socket.emit('user.comment.result', message)
+                        }).catch((e) => {
+                            throw e;
+                        });
+                    }).catch((e) => {
+                        throw e;
+                    });
 
-                }).catch((e) => {
-                    throw e;
-                });
+                }));
             } else {
                 var result = "Nicht ausreichende Berechtigung";
                 console.log("Result für 'user.comment':");
