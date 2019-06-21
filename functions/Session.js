@@ -103,7 +103,8 @@ this.checkSessionId = function (SessionID, Type) {
                 })
             } else {
                 console.log("Fehler bei der Benutzerindentifikation");
-                resolve(false);
+                result = false;
+                resolve(result);
             }
         })
     });
