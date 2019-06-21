@@ -8,19 +8,24 @@ this.login = (data) => {
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.log_BN], function (e, db_res) {
             if (e) reject(e);
-            bcrypt.compare(data.log_PW, db_res[0]['Passwort'], function (err, res) {
-                if (err) reject(err);
-                if (res) {
-                    response.result = "Passwort stimmt überein";
-                    session.generateSessionId(db_res[0]['Benutzer_Nr']).then((sessionID) => {
-                        response.session_id = sessionID;
+            if (db_res.length <= 0) {
+                response.result = "Diesen Benutzernamen gibt es nicht";
+                resolve(response);
+            } else {
+                bcrypt.compare(data.log_PW, db_res[0]['Passwort'], function (err, res) {
+                    if (err) reject(err);
+                    if (res) {
+                        response.result = "Passwort stimmt überein";
+                        session.generateSessionId(db_res[0]['Benutzer_Nr']).then((sessionID) => {
+                            response.session_id = sessionID;
+                            resolve(response);
+                        });
+                    } else {
+                        response.result = "Passwort und Benutzername stimmen nicht überein";
                         resolve(response);
-                    });
-                } else {
-                    response.result = "Passwort und Benutzername stimmen nicht überein";
-                    resolve(response);
-                }
-            });
+                    }
+                });
+            }
         });
     })
 };
