@@ -27,7 +27,7 @@ this.generateSessionId = function (BenutzerNr) {
 
 this.checkSessionId = function (SessionID, Type) {
     return new Promise((resolve, reject) => {
-        //console.log('SessionID: ' + SessionID);
+        console.log('SessionID: ' + SessionID);
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
             if (UserID.length > 0) {
@@ -35,16 +35,16 @@ this.checkSessionId = function (SessionID, Type) {
                     if (er) reject(er);
                     var neededRole = 0, role = 0, result = false;
                     switch (rows[0]["Rollen_Nr"]) {
-                        case "1":
+                        case 1:
                             role = 1;
                             break;
-                        case "2":
+                        case 2:
                             role = 2;
                             break;
-                        case "3":
+                        case 3:
                             role = 3;
                             break;
-                        case "4":
+                        case 4:
                             role = 4;
                             break;
                         default:
@@ -72,7 +72,7 @@ this.checkSessionId = function (SessionID, Type) {
                             neededRole = [1, 2];
                             break;
                         case "user.comment":
-                            neededRole = [1, 2, 3, 4];
+                            neededRole = [1, 2, 3];
                             break;
                         case "delete.comment":
                             neededRole = [1, 2];
@@ -81,9 +81,11 @@ this.checkSessionId = function (SessionID, Type) {
                             neededRole = [1, 2, 3, 4];
                             break;
                         case "pdf.get":
+                            neededRole = [1, 2, 3];
+                            break;
+                        case "session.user.get":
                             neededRole = [1, 2, 3, 4];
                             break;
-
                         //Space for more Requests
                         default:
                             console.log("Anfragentype ist nicht vergeben");

@@ -1,15 +1,13 @@
 const app = require('../app.js');
 
-this.select = function (data) {
+this.select = (data) => {
     console.log(data);
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT ' + data.choosedColumns + ' FROM ' + data.choosedTable + ' WHERE ' + data.condition, function (e, rows) {
             if (e) reject(e);
             resolve(rows);
         });
-    }).catch((e) => {
-        throw e;
-    });
+    })
 };
 
 this.insert = (data) => {
