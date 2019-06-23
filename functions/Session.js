@@ -27,7 +27,6 @@ this.generateSessionId = function (BenutzerNr) {
 
 this.checkSessionId = function (SessionID, Type) {
     return new Promise((resolve, reject) => {
-        console.log('SessionID: ' + SessionID);
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
             if (UserID.length > 0) {

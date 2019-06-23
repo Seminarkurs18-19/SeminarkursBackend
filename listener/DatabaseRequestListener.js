@@ -89,9 +89,9 @@ this.listenForItems = function (socket) {
     socket.on('get.comment.item', function (data) {
         session.checkSessionId(data.session_id, "get.comment.item").then((res) => {
             if (res) {
-                var condition = String('ITEM_ID = "' + data.condition + '"'),
-                    choosedTable = 'Comment_on_Item';
-                choosedColumns = '*';
+                var condition = String('c.ITEM_ID = "' + data.condition + '" AND c.Benutzer_Nr = b.Benutzer_Nr'),
+                    choosedTable = 'Comment_on_Item c, Benutzer b';
+                choosedColumns = 'c.*, b.Abteilung';
                 let sqlData = {choosedTable, condition, choosedColumns};
                 databaseRequest.select(sqlData).then((result) => {
                     console.log("Result für 'get.comment.item':");

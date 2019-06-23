@@ -37,14 +37,15 @@ this.listenForUser = function (socket) {
                     if (err) bezeichnung = "Kann nicht's";
                     databaseRequest.select({
                         choosedTable: 'Benutzer b, Sitzungen s',
-                        choosedColumns: 'b.Benutzername',
+                        choosedColumns: 'b.Benutzername, b.Benutzer_Nr',
                         condition: `s.Sitzungs_ID = "${data.session_id}" AND b.Benutzer_Nr = s.Benutzer_Nr`
                     }).then((result) => {
+                        console.log(result);
                         var randoms = data1.split(';');
                         bezeichnung = result[0]['Benutzername'] + ', ' + Math.round(Math.random() * 50 + 10) + ', ' + randoms[Math.round(Math.random() * randoms.length)];
                         var values = String('"' + bezeichnung + '", "' + data.kommentar +
-                            '", "' + data.item + '"'),
-                            columns = 'Com_Bez, Comment, ITEM_ID',
+                            '", "' + data.item + '", ' + result[0]['Benutzer_Nr']),
+                            columns = 'Com_Bez, Comment, ITEM_ID, Benutzer_Nr',
                             choosedTable = 'Comment_on_Item';
                         let sqlData = {columns, choosedTable, values};
                         databaseRequest.insert(sqlData).then((result) => {
@@ -76,7 +77,7 @@ this.listenForUser = function (socket) {
             if (res) {
                 var condition = String('Sitzungs_ID = "' + data.session_id +
                     '" AND s.Benutzer_Nr = b.Benutzer_Nr AND b.Rollen_Nr = r.Rollen_Nr'),
-                    choosedColumns = 'b.*, r.Rollen_Name',
+                    choosedColumns = 'b.Benutzername, b.Abteilung, r.Rollen_Name',
                     choosedTable = 'Benutzer b, Sitzungen s, Rolle r';
                 let sqlData = {choosedColumns, choosedTable, condition};
                 databaseRequest.select(sqlData).then((result) => {
