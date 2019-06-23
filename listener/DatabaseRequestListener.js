@@ -91,7 +91,7 @@ this.listenForItems = function (socket) {
             if (res) {
                 var condition = String('c.ITEM_ID = "' + data.condition + '" AND c.Benutzer_Nr = b.Benutzer_Nr'),
                     choosedTable = 'Comment_on_Item c, Benutzer b';
-                choosedColumns = 'c.*, b.Abteilung';
+                choosedColumns = 'c.*, b.Abteilung, b.Benutzername';
                 let sqlData = {choosedTable, condition, choosedColumns};
                 databaseRequest.select(sqlData).then((result) => {
                     console.log("Result für 'get.comment.item':");
