@@ -6,7 +6,11 @@ const fs = require('fs');
 
 this.listenForUser = function (socket) {
 
-    socket.on('user.registration', function (data) {
+    socket.on('user.registration', function (data) { //Funktion user.registration
+        /**
+         * Inputs = reg_PW und reg_BN
+         * Output = "registriert" oder "nicht registriert"
+         */
         //Verarbeitung
         login.registration(data).then((result) => {
             console.log("Result von 'user.registration'");
@@ -17,7 +21,11 @@ this.listenForUser = function (socket) {
             throw e;
         });
     });
-    socket.on('user.login', function (data) {
+    socket.on('user.login', function (data) {   //Funktion user.login
+        /**
+         * Inputs = log_PW und log_BN
+         * Output = SessionID oder "nicht Angemeldet"
+         */
         //Verarbeitung
         login.login(data).then((result) => {
             console.log("Result von 'user.login'");
@@ -29,7 +37,11 @@ this.listenForUser = function (socket) {
         });
 
     });
-    socket.on('user.comment', function (data) {
+    socket.on('user.comment', function (data) { //Funktion user.comment
+        /**
+         * Inputs = item, kommentar, sessionID
+         * Output = Kommentar gespeichert
+         */
         session.checkSessionId(data.session_id, "user.comment").then((res) => {
             if (res) {
                 var bezeichnung = "";
@@ -72,7 +84,11 @@ this.listenForUser = function (socket) {
             }
         })
     });
-    socket.on('session.user.get', function (data) {
+    socket.on('session.user.get', function (data) { //Funktion session.user.get
+        /**
+         * Inputs = sessionID
+         * Output = Benutzernummer, Benutzername, Abteilung
+         */
         session.checkSessionId(data.session_id, "session.user.get").then((res) => {
             if (res) {
                 var condition = String('Sitzungs_ID = "' + data.session_id +

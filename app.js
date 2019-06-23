@@ -10,6 +10,7 @@ var fs = require('fs');
 const app = express();
 var http = require('http').Server(app);
 
+//Server Setup wurde schon in der Doku erklärt
 this.io = require('socket.io')(http);
 this.connection = mysql.createConnection({
     host: "alexkutschera.de",
@@ -18,23 +19,26 @@ this.connection = mysql.createConnection({
     database: "seminarkurs"
 });
 
+//Serverstart
 this.connection.connect((e) => {
     if (e) throw e;
     console.log('connected');
 });
-/*
+
+//Sitzungen werden bei Serverstart wird zurückgesetzt
 this.connection.query('DELETE FROM Sitzungen WHERE Benutzer_Nr > 0', function (e) {
     if (e) throw e;
     console.log('Sessions wurden gelöscht');
 });
-*/
+
+//SocketIO Serverschnittstelle
 this.io.on("connection", (socket) => {
     console.log('Beim Server angekommen (io.on)');
     UserListen.listenForUser(socket);
     DatabaseRequestListen.listenForItems(socket);
     SupportListen.listenForSupport(socket);
 });
-
+//Festlegen des Webinterface index.html
 app.use(express.static('public'));
 
 app.get('/pdf/:artikel_id', (req, res) => {

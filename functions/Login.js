@@ -3,7 +3,11 @@ const app = require('../app.js');
 const session = require('./Session.js');
 const saltRounds = 10;
 
-this.login = (data) => {
+this.login = (data) => { //Funktion für Benutzerlogin
+    /**
+     * Inputs = log_BN, log_PW
+     * Output = SessionID
+     */
     let response = {};
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.log_BN], function (e, db_res) {
@@ -30,7 +34,11 @@ this.login = (data) => {
     })
 };
 
-this.registration = (data) => {
+this.registration = (data) => { //Funktion für Registration
+    /**
+     * Inputs = reg_PW, reg_BN
+     * Output = Benutzer angelegt
+     */
     //Benutzer prüfen
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT * FROM Benutzer WHERE Benutzername = ?', [data.reg_BN], function (e, rows) {

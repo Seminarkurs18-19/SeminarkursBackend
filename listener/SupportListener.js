@@ -4,10 +4,14 @@ const databaseRequest = require('../functions/DatabaseRequest.js');
 
 this.listenForSupport = function (socket) {
 
-    socket.on('chat_emit', function (data) {
+    socket.on('chat_emit', function (data) {//Chat Emit == Das ist die präsentierte Chat-Demo
         app.io.sockets.emit('chat_send', data);
     });
-    socket.on('support.available', function (data) {
+    socket.on('support.available', function (data) { //Funktion support.available
+        /**
+         * Inputs = sessionID
+         * Output = Status gespeichert
+         */
         session.checkSessionId(data.session_id, "support.available").then((res) => {
             if (res) {
                 var condition = String('Sitzungs_ID = "' + data.session_id + '"'),
@@ -45,7 +49,11 @@ this.listenForSupport = function (socket) {
             }
         })
     });
-    socket.on('support.away', function (data) {
+    socket.on('support.away', function (data) { //Funktion support.away
+        /**
+         * Inputs = sessionID
+         * Output = Status gespeichert
+         */
         session.checkSessionId(data.session_id, "support.away").then((res) => {
             if (res) {
                 var condition = String('Sitzungs_ID = "' + data.session_id + '"'),
@@ -83,7 +91,11 @@ this.listenForSupport = function (socket) {
             }
         })
     });
-    socket.on('update.role', function (data) {
+    socket.on('update.role', function (data) { //Funktion update.role
+        /**
+         * Inputs = user, role
+         * Output = Benutzerrolle geupdated
+         */
         session.checkSessionId(data.session_id, "update.role").then((res) => {
             if (res) {
                 var condition = String('Benutzer_Nr = "' + data.user + '" OR Benutzername = "' + data.user + '"'),
@@ -108,7 +120,11 @@ this.listenForSupport = function (socket) {
             }
         })
     });
-    socket.on('delete.comment', function (data) {
+    socket.on('delete.comment', function (data) { //Funktion delete.comment
+        /**
+         * Inputs = comment_id
+         * Output = Kommentar gelöscht
+         */
         session.checkSessionId(data.session_id, "delete.comment").then((res) => {
             if (res) {
                 var condition = String('COMMENT_ID = "' + data.condition + '"'),

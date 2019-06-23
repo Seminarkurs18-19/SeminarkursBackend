@@ -5,7 +5,11 @@ const session = require('../functions/Session.js');
 
 this.listenForItems = function (socket) {
 
-    socket.on('artikel.get', function (data) {
+    socket.on('artikel.get', function (data) {              //Funktion artikel.get
+        /**
+         * Inputs = condition = ArtikelID
+         * Output = Der gesuchte Artikel
+         */
         session.checkSessionId(data.session_id, "artikel.get").then((res) => {
             if (res) {
                 var condition = String('ARTIKEL_ID = "' + data.condition + '"'),
@@ -30,7 +34,11 @@ this.listenForItems = function (socket) {
             }
         })
     });
-    socket.on('item.get', function (data) {
+    socket.on('item.get', function (data) {                 //Funktion item.get
+        /**
+         * Inputs = condition = ItemID
+         * Output = Das gesuchte Item
+         */
         session.checkSessionId(data.session_id, "item.get").then((res) => {
             if (res) {
                 var condition = String('i.ITEM_ID = "' + data.condition + '" ' +
@@ -56,7 +64,11 @@ this.listenForItems = function (socket) {
             }
         })
     });
-    socket.on('item.search', function (data) {
+    socket.on('item.search', function (data) {              //Funktion item.search
+        /**
+         * Inputs = condition = ItemID oder ArtikelID oder Artikelbezeichnung
+         * Output = Alle Ergebnisse
+         */
         session.checkSessionId(data.session_id, "item.search").then((res) => {
             if (res) {
                 var condition = String('i.ITEM_ID LIKE "%' + data.condition + '%" ' +
@@ -86,7 +98,11 @@ this.listenForItems = function (socket) {
             }
         })
     });
-    socket.on('get.comment.item', function (data) {
+    socket.on('get.comment.item', function (data) {       //Funktion get.comment.item
+        /**
+         * Inputs = condition = ItemID
+         * Output = Alle Kommentare zu diesem Item
+         */
         session.checkSessionId(data.session_id, "get.comment.item").then((res) => {
             if (res) {
                 var condition = String('c.ITEM_ID = "' + data.condition + '" AND c.Benutzer_Nr = b.Benutzer_Nr'),

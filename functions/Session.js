@@ -1,7 +1,11 @@
 const crypto = require('crypto');
 const app = require('../app.js');
 
-this.generateSessionId = function (BenutzerNr) {
+this.generateSessionId = function (BenutzerNr) { //Funktion zum Erstellen von Sessions
+    /**
+     * Inputs = BenutzerNr
+     * Output = SessionID
+     */
     return new Promise((resolve, reject) => {
         crypto.randomBytes(16, (err, buf) => {
             if (err) reject(err);
@@ -25,7 +29,11 @@ this.generateSessionId = function (BenutzerNr) {
     });
 };
 
-this.checkSessionId = function (SessionID, Type) {
+this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der SessionID
+    /**
+     * Inputs = SessionID, Type
+     * Output = boolean (true, false)
+     */
     return new Promise((resolve, reject) => {
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
@@ -34,7 +42,7 @@ this.checkSessionId = function (SessionID, Type) {
                     if (er) reject(er);
                     var neededRole = 0, role = 0, result = false;
                     switch (rows[0]["Rollen_Nr"]) {
-                        case 1:
+                        case 1:                     //Rolle prüfen und als Variable abspeichern
                             role = 1;
                             break;
                         case 2:
@@ -85,7 +93,7 @@ this.checkSessionId = function (SessionID, Type) {
                         case "session.user.get":
                             neededRole = [1, 2, 3, 4];
                             break;
-                        //Space for more Requests
+                        //Space for more Requests <==== Hier werden dann mehr Funktionen mit Rollen hinzugefügt
                         default:
                             console.log("Anfragentype ist nicht vergeben");
                             result = false;
