@@ -52,7 +52,7 @@ this.checkSessionId = function (SessionID, Type) {
                             resolve(result);
                     }
                     switch (Type) {
-                        case "item.search":
+                        case "artikel.search":
                             neededRole = [1, 2, 3, 4];
                             break;
                         case "item.get":
