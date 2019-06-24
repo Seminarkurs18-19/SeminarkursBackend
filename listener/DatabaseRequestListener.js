@@ -56,33 +56,33 @@ this.listenForItems = function (socket) {
             }
         })
     });
-    socket.on('item.search', function (data) {
-        session.checkSessionId(data.session_id, "item.search").then((res) => {
+    socket.on('artikel.search', function (data) {
+        session.checkSessionId(data.session_id, "artikel.search").then((res) => {
             if (res) {
-                var condition = String('i.ITEM_ID LIKE "%' + data.condition + '%" ' +
-                    'OR i.ARTIKEL_ID LIKE "%' + data.condition + '%" ' +
+                var condition = String(
+                    'i.ARTIKEL_ID LIKE "%' + data.condition + '%" ' +
                     'OR a.Art_Bez LIKE "%' + data.condition + '%"' +
                     'AND i.ARTIKEL_ID = a.ARTIKEL_ID'),
-                    choosedColumns = '*',
+                    choosedColumns = 'a.*',
                     choosedTable = 'Item_from_Artikel i, Artikel a';
 
                 let sqlData = {choosedColumns, choosedTable, condition};
 
                 databaseRequest.select(sqlData).then((result) => {
                     if (result.length === 0) result = "Keine Ergebnisse";
-                    console.log("Result für 'item.search':");
+                    console.log("Result für 'artikel.search':");
                     console.log(result);
-                    socket.emit('item.search.result', result)
+                    socket.emit('artikel.search.result', result)
 
                 }).catch((e) => {
                     throw e;
                 });
             } else {
                 var result = "Nicht ausreichende Berechtigung";
-                console.log("Result für 'item.search':");
+                console.log("Result für 'artikel.search':");
                 console.log(result);
                 var message = {result};
-                socket.emit('item.search.result', message)
+                socket.emit('artikel.search.result', message)
             }
         })
     });
