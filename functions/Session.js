@@ -93,6 +93,9 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
                         case "session.user.get":
                             neededRole = [1, 2, 3, 4];
                             break;
+                        case "user.check.session":
+                            neededRole = [1, 2, 3, 4];
+                            break;
                         //Space for more Requests <==== Hier werden dann mehr Funktionen mit Rollen hinzugefügt
                         default:
                             console.log("Anfragentype ist nicht vergeben");

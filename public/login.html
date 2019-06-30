@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzer-Log-In</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="js/socket.js"></script>
+</head>
+<body>
+<h1>Benutzer-Log-In</h1>
+<div id="divLogin">
+    <input id="iptBenutzername" placeholder="Benutzername" type="text"><br>
+    <input id="iptPasswort" placeholder="Passwort" type="text"><br>
+    <button id="btnLogin" onclick="login()">Anmelden</button>
+    <br><br>
+</div>
+<div id="divWeiter" style="visibility: hidden">
+    <button id="btnWeiter" onclick="weiter()">Weiter</button>
+</div>
+<div id="divResult">
+</div>
+<script>
+
+    var connection = io();
+    var btnLogin = document.getElementById("btnLogin"),
+        iptBenutzername = document.getElementById("iptBenutzername"),
+        iptPasswort = document.getElementById("iptPasswort"),
+        result = document.getElementById("divResult");
+    var session = "";
+
+    function login() {
+        var log_BN = iptBenutzername.value,
+            log_PW = iptPasswort.value;
+
+        if (log_BN === "" || log_PW === "") {
+            result.innerHTML = "<p><b>Result:</b><br>Benutzername oder Passwort ist nicht eingetragen</p>";
+        } else {
+            var data = {log_BN, log_PW};
+            connection.emit('user.login', data);
+        }
+    }
+
+    connection.on('user.login.result', (data) => {
+
+        console.log(data);
+        result.innerHTML = "<p><b>Result:</b><br>" + data.result + "</p>" +
+            "<p><b>SessionID:</b><br>" + data.session_id + "</p>";
+        if (data.session_id !== undefined) {
+            document.getElementById("divWeiter").style.visibility = "visible";
+            document.getElementById("divLogin").style.visibility = "hidden";
+            session = data.session_id;
+
+        }
+
+    });
+
+    function weiter() {
+        //Zum Menü
+        sessionStorage.setItem("session", session);
+        window.location.href = 'menü.html';
+    }
+</script>
+</body>
+</html>
