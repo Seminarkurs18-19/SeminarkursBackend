@@ -35,6 +35,7 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
      * Output = boolean (true, false)
      */
     return new Promise((resolve, reject) => {
+        console.log(SessionID);
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
             if (UserID.length > 0) {

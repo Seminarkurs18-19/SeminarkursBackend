@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Startseite</title>
+    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="js/socket.js"></script>
+</head>
+<body>
+
+<div class="divLeft">
+    <ul>
+        <li><img class="imgLogo" src="./images/Esel.png"></li>
+        <li><a href="">Startseite</a></li>
+        <li><a href="">Benutzerverwaltung</a></li>
+        <li><a href="">Datenbankverwaltung</a></li>
+        <li><a href="">Supporterverwaltung</a></li>
+    </ul>
+</div>
+<div class="divBody">
+    <div class="divTitle">
+        <h1 class="start">Startseite</h1>
+    </div>
+    <div class="divContent">
+        <a><h3>Content</h3></a>
+    </div>
+</div>
+<div class="divRight"><h3>boxboxboxbox</h3></div>
+</body>
+<script>
+    var connection = io();
+
+
+    document.getElementById("start").addEventListener("onload", start());
+
+    function start() {
+        var session_id = sessionStorage.getItem("session");
+        var data = {session_id};
+        connection.emit('user.check.session', data);
+    }
+
+    connection.on('user.check.session.result', (data) => {
+
+        if (data.result === true) {
+            console.log("SessionID: Berechtigt");
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+</script>
+</html>
