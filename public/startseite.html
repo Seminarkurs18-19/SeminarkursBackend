@@ -19,7 +19,7 @@
 </div>
 <div class="divBody">
     <div class="divTitle">
-        <h1 class="start">Startseite</h1>
+        <h1 id="start">Startseite</h1>
     </div>
     <div class="divContent">
         <a><h3>Content</h3></a>
@@ -31,7 +31,8 @@
     var connection = io();
 
 
-    document.getElementById("start").addEventListener("onload", start());
+    var header = document.getElementById("start");
+    header.addEventListener('onload', start());
 
     function start() {
         var session_id = sessionStorage.getItem("session");
