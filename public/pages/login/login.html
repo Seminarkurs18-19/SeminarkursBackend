@@ -14,15 +14,11 @@
     <input id="iptPasswort" placeholder="Passwort" type="text"><br>
     <button id="btnLogin" onclick="login()">Anmelden</button>
     <br>
-    <div id="divWeiter" style="visibility: hidden">
-        <button id="btnWeiter" onclick="weiter()">Weiter</button>
-    </div>
     <div id="divResult">
     </div>
 </div>
 
 <script>
-
     var connection = io();
     var btnLogin = document.getElementById("btnLogin"),
         iptBenutzername = document.getElementById("iptBenutzername"),
@@ -41,26 +37,16 @@
             connection.emit('user.login', data);
         }
     }
-
     connection.on('user.login.result', (data) => {
-
         console.log(data);
         result.innerHTML = "<p><b>Result:</b><br>" + data.result + "</p>" +
             "<p><b>SessionID:</b><br>" + data.session_id + "</p>";
         if (data.session_id !== undefined) {
-            document.getElementById("divWeiter").style.visibility = "visible";
-            document.getElementById("divLogin").style.visibility = "hidden";
             session = data.session_id;
-
+            sessionStorage.setItem("session", session);
+            window.location.href = '../startseite.html';
         }
-
     });
-
-    function weiter() {
-        //Zum Menü
-        sessionStorage.setItem("session", session);
-        window.location.href = '../startseite.html';
-    }
 </script>
 </body>
 </html>
