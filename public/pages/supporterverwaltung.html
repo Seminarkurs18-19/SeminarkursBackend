@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Startseite</title>
-    <link href="stylesheets/stylesheet.css" rel="stylesheet">
+    <title>Supportverwaltung</title>
+    <link href="../stylesheets/stylesheet.css" rel="stylesheet">
     <script src="js/socket.js"></script>
 </head>
 <body>
 
 <div class="divLeft">
     <ul>
-        <li><img class="imgLogo" src="./images/Esel.png"></li>
-        <li><a href="">Startseite</a></li>
-        <li><a href="">Benutzerverwaltung</a></li>
-        <li><a href="">Datenbankverwaltung</a></li>
-        <li><a href="">Supporterverwaltung</a></li>
+        <li><img class="imgLogo" src="../images/Esel.png"></li>
+        <li><a href="startseite.html">Startseite</a></li>
+        <li><a href="../pages/benutzerverwaltung.html">Benutzerverwaltung</a></li>
+        <li><a href="../pages/datenbankverwaltung.html">Datenbankverwaltung</a></li>
+        <li><a href="../pages/supporterverwaltung.html">Supporterverwaltung</a></li>
     </ul>
 </div>
 <div class="divBody">
     <div class="divTitle">
-        <h1 id="start">Startseite</h1>
+        <h1 id="start">Supportverwaltung</h1>
     </div>
     <div class="divContent">
         <a><h3>Content</h3></a>
@@ -29,7 +29,6 @@
 </body>
 <script>
     var connection = io();
-
 
     var header = document.getElementById("start");
     header.addEventListener('onload', start());

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Startseite</title>
+    <link href="../stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="../js/socket.js"></script>
+</head>
+<body>
+<div class="divLeft">
+    <ul>
+        <li><img class="imgLogo" src="../images/Esel.png"></li>
+        <li><a href="../start/startseite.html">Startseite</a></li>
+        <li><a href="benutzerverwaltung.html">Benutzerverwaltung</a></li>
+        <li><a href="datenbankverwaltung.html">Datenbankverwaltung</a></li>
+        <li><a href="supporterverwaltung.html">Supporterverwaltung</a></li>
+    </ul>
+</div>
+
+
+<div class="divBody">
+    <div class="divTitle">
+        <h1 id="start">Startseite</h1>
+    </div>
+    <div class="divContent">
+        <a><h3>Content</h3></a>
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+    </div>
+</div>
+
+
+<div class="divRight">
+    <div class="divBenutzer">
+        <img class="icon_pers" src="../images/icon_pers.png">
+
+    </div>
+    <div class="divUserData">
+        <p>
+            <b>Whatsuup</b>#01<br>
+            Administrator
+        </p>
+        <p>
+            <a href="login/login.html">abmelden</a>
+        </p>
+    </div>
+</div>
+</body>
+<script>
+    var connection = io();
+
+    var header = document.getElementById("start");
+    header.addEventListener('onload', start());
+
+    function start() {
+        var session_id = sessionStorage.getItem("session");
+        var data = {session_id};
+        connection.emit('user.check.session', data);
+    }
+
+    connection.on('user.check.session.result', (data) => {
+
+        if (data.result === true) {
+            console.log("SessionID: Berechtigt");
+        } else {
+            window.location.href = '../index.html';
+        }
+    });
+</script>
+</html>

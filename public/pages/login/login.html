@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Benutzer-Log-In</title>
-    <link href="stylesheets/stylesheet.css" rel="stylesheet">
-    <script src="js/socket.js"></script>
+    <link href="../../stylesheets/stylesheet.css" rel="stylesheet">
+    <script src="../../js/socket.js"></script>
 </head>
-<body>
-<h1>Benutzer-Log-In</h1>
+<body class="bodyLogin">
+
 <div id="divLogin">
+    <h1>Benutzer-Log-In</h1>
     <input id="iptBenutzername" placeholder="Benutzername" type="text"><br>
     <input id="iptPasswort" placeholder="Passwort" type="text"><br>
     <button id="btnLogin" onclick="login()">Anmelden</button>
-    <br><br>
+    <br>
+    <div id="divWeiter" style="visibility: hidden">
+        <button id="btnWeiter" onclick="weiter()">Weiter</button>
+    </div>
+    <div id="divResult">
+    </div>
 </div>
-<div id="divWeiter" style="visibility: hidden">
-    <button id="btnWeiter" onclick="weiter()">Weiter</button>
-</div>
-<div id="divResult">
-</div>
+
 <script>
 
     var connection = io();
@@ -57,7 +59,7 @@
     function weiter() {
         //Zum Menü
         sessionStorage.setItem("session", session);
-        window.location.href = 'startseite.html';
+        window.location.href = '../startseite.html';
     }
 </script>
 </body>

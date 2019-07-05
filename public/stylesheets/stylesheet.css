@@ -1,29 +1,75 @@
 body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px "Calibri", Helvetica, Arial, sans-serif;
+    background-color: grey;
 }
 
-div {
-    border: black;
+/*Images*/
+.icon_pers {
+    height: 170px;
+    width: 170px;
+    padding: 5px
 }
 
 .imgLogo {
     height: 200px;
-    width: 160px;
+    width: 165px;
     padding: 10px;
+    background-color: white;
 }
 
-.divLeft {
-    padding-left: auto;
+/*Divs*/
+#divLogin {
+    padding-left: 45%;
+    padding-top: 15%;
+}
+
+.divBenutzer {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.divUserData {
+    position: relative;
+    text-align: center;
+}
+
+
+.divTitle {
+    background-color: #eee;
+    text-align: center;
+    top: 5px;
 }
 
 .divBody {
-    padding-left: 190px;
-    padding-right: 25%;
+    padding-left: 200px;
+    padding-right: 200px;
 }
 
 .divRight {
-    padding-right: auto;
+    width: 185px;
+    background-color: #f1f1f1;
+    height: 270px;
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    box-shadow: 5px 5px 5px 5px #555;
+    border-radius: 5px;
 }
+
+.divContent {
+    background-color: #eeeeee;
+}
+
+.divLeft {
+    position: fixed;
+    top: 5px;
+    left: 10px;
+    box-shadow: 5px 5px 5px 5px #555;
+    border-radius: 5px;
+}
+
+/*Menü*/
 a {
     color: #00B7FF;
 }
@@ -32,21 +78,25 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 180px;
+    width: auto;
     background-color: #f1f1f1;
-    height: 100%; /* Full height */
-    position: fixed; /* Make it stick, even on scroll */
-    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+    height: auto;
+    overflow: auto;
+    border-radius: 5px;
+}
+
+li {
+    background-color: white;
 }
 
 li a {
     display: block;
-    color: #000;
+    color: black;
+    font-size: medium;
     padding: 8px 16px;
     text-decoration: none;
 }
 
-/* Change the link color on hover */
 li a:hover {
     background-color: #555;
     color: white;
