@@ -60,11 +60,9 @@ this.listenForItems = function (socket) {
         session.checkSessionId(data.session_id, "artikel.search").then((res) => {
             if (res) {
                 var condition = String(
-                    'i.ARTIKEL_ID LIKE "%' + data.condition + '%" ' +
-                    'OR a.Art_Bez LIKE "%' + data.condition + '%"' +
-                    'AND i.ARTIKEL_ID = a.ARTIKEL_ID'),
+                    'a.Art_Bez LIKE "%' + data.condition + '%"'),
                     choosedColumns = 'a.*',
-                    choosedTable = 'Item_from_Artikel i, Artikel a';
+                    choosedTable = 'Artikel a';
 
                 let sqlData = {choosedColumns, choosedTable, condition};
 
