@@ -24,7 +24,8 @@
     </div>
     <div class="divContent">
         <!-------------------------------------------------------Variabler Content------------------------------------------------------------------>
-        <a><h3>Content</h3></a>
+        <a><h3><b>Githubnews:</b></h3></a>
+        <iframe height="400" name="GitHubFrame" src="" width="100%"></iframe>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
@@ -37,7 +38,6 @@
 <div class="divRight">
     <div class="divBenutzer">
         <img class="icon_pers" src="../images/icon_pers.png">
-
     </div>
     <div class="divUserData">
         <p id="pUserData">
@@ -93,7 +93,6 @@
             default:
                 bnResult = bnNr;
         }
-        console.log(data.result.Benutzername);
         pUserData.innerHTML = "<b style='font-size: large'>" + data.result[0]['Benutzername'] + "</b>" +
             "<a style='color: gray; font-size: smaller'>#" + bnResult +
             "</a><br>" + data.result[0]['Rollen_Name']
