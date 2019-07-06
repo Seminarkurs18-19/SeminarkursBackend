@@ -80,7 +80,7 @@ this.listenForItems = function (socket) {
                 console.log("Result für 'artikel.search':");
                 console.log(result);
                 var message = {result};
-                socket.emit('artikel.search.result', message)
+                socket.emit('artikel.search.result', [])
             }
         })
     });
