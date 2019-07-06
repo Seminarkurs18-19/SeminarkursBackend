@@ -6,7 +6,7 @@
     <link href="../stylesheets/stylesheet.css" rel="stylesheet">
     <script src="../js/socket.js"></script>
 </head>
-<body>
+<body id="bdy" onload="start()" style="visibility: hidden">
 <div class="divLeft">
     <ul>
         <li><img class="imgLogo" src="../images/Esel.png"></li>
@@ -20,13 +20,16 @@
 
 <div class="divBody">
     <div class="divTitle">
-        <h1 id="start">Startseite</h1>
+        <h1>Startseite</h1>
     </div>
     <div class="divContent">
+        <!-------------------------------------------------------Variabler Content------------------------------------------------------------------>
         <a><h3>Content</h3></a>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+
+        <!---------------------------------------------------Ende variabler Content----------------------------------------------------------------->
     </div>
 </div>
 
@@ -37,21 +40,22 @@
 
     </div>
     <div class="divUserData">
-        <p>
-            <b>Whatsuup</b>#01<br>
-            Administrator
+        <p id="pUserData">
         </p>
         <p>
-            <a href="login/login.html">abmelden</a>
+            <a href="login/login.html" onclick="reset()">abmelden</a>
         </p>
     </div>
 </div>
 </body>
 <script>
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////Notwendiger Code jeder Seite ///////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     var connection = io();
 
-    var header = document.getElementById("start");
-    header.addEventListener('onload', start());
+    var pUserData = document.getElementById("pUserData"),
+        body = document.getElementById('bdy');
 
     function start() {
         var session_id = sessionStorage.getItem("session");
@@ -59,13 +63,43 @@
         connection.emit('user.check.session', data);
     }
 
-    connection.on('user.check.session.result', (data) => {
+    function reset() {
+        sessionStorage.clear();
+    }
 
+    connection.on('user.check.session.result', (data) => {
         if (data.result === true) {
             console.log("SessionID: Berechtigt");
+            body.style.visibility = 'visible';
+            var session_id = sessionStorage.getItem('session');
+            connection.emit('session.user.get', {session_id});
         } else {
             window.location.href = '../index.html';
         }
     });
+    connection.on('session.user.get.result', (data) => {
+        var bnNr = String(data.result[0]['Benutzer_Nr']),
+            bnResult;
+        switch (bnNr.length) {
+            case 1:
+                bnResult = "000" + bnNr;
+                break;
+            case 2:
+                bnResult = "00" + bnNr;
+                break;
+            case 3:
+                bnResult = "0" + bnNr;
+                break;
+            default:
+                bnResult = bnNr;
+        }
+        console.log(data.result.Benutzername);
+        pUserData.innerHTML = "<b style='font-size: large'>" + data.result[0]['Benutzername'] + "</b>" +
+            "<a style='color: gray; font-size: smaller'>#" + bnResult +
+            "</a><br>" + data.result[0]['Rollen_Name']
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////Ende des notwendigen Codes///////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    })
 </script>
 </html>

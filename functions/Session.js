@@ -35,7 +35,7 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
      * Output = boolean (true, false)
      */
     return new Promise((resolve, reject) => {
-        console.log(SessionID);
+        if (SessionID === null || SessionID === undefined) resolve(false);
         app.connection.query('SELECT Benutzer_Nr FROM Sitzungen WHERE SITZUNGS_ID = ?', [SessionID], function (e, UserID) {
             if (e) reject(e);
             if (UserID.length > 0) {
@@ -100,24 +100,20 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
                         //Space for more Requests <==== Hier werden dann mehr Funktionen mit Rollen hinzugefügt
                         default:
                             console.log("Anfragentype ist nicht vergeben");
-                            result = false;
-                            resolve(result);
+                            resolve(false);
                     }
                     if (role === neededRole[0] || role === neededRole[1] || role === neededRole[2] || role === neededRole[3]) {
 
                         console.log("SessionID: Zugriff erlaubt");
-                        result = true;
-                        resolve(result);
+                        resolve(true);
                     } else {
                         console.log("SessionID: Zugriff nicht erlaubt");
-                        result = false;
-                        resolve(result);
+                        resolve(false);
                     }
                 })
             } else {
                 console.log("Fehler bei der Benutzerindentifikation");
-                result = false;
-                resolve(result);
+                resolve(false);
             }
         })
     });
