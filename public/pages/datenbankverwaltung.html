@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <title>Datenbankverwaltung</title>
     <link href="../stylesheets/stylesheet.css" rel="stylesheet">
+    <link href="../images/icon.png" rel="icon" sizes="16x16">
     <script src="../js/socket.js"></script>
 </head>
 <body id="bdy" onload="start()" style="visibility: hidden">
 <div class="divLeft">
     <ul>
-        <li><img class="imgLogo" src="../images/Esel.png"></li>
-        <li><a href="startseite.html">Startseite</a></li>
-        <li><a href="benutzerverwaltung.html">Benutzerverwaltung</a></li>
-        <li><a href="datenbankverwaltung.html">Datenbankverwaltung</a></li>
-        <li><a href="supporterverwaltung.html">Supporterverwaltung</a></li>
+        <li><img class="imgLogo" src="../images/logo_boysen.png"></li>
+        <li id="liStartseite"><a href="startseite.html">Startseite</a></li>
+        <li id="liBenutzerverwaltung"><a href="benutzerverwaltung.html">Benutzerverwaltung</a></li>
+        <li id="liDatenbankverwaltung"><a href="datenbankverwaltung.html">Datenbankverwaltung</a></li>
+        <li id="liSupportverwaltung"><a href="supporterverwaltung.html">Supporterverwaltung</a></li>
     </ul>
 </div>
 
@@ -37,7 +38,11 @@
                 <a href="#tools">Option 7</a>
             </div>
         </div>
+        <div class="divCenter">
+            <div class="divOption" id="divOption">
 
+            </div>
+        </div>
         <!---------------------------------------------------Ende variabler Content----------------------------------------------------------------->
     </div>
 </div>
@@ -104,7 +109,7 @@
         }
         pUserData.innerHTML = "<b style='font-size: large'>" + data.result[0]['Benutzername'] + "</b>" +
             "<a style='color: gray; font-size: smaller'>#" + bnResult +
-            "</a><br>" + data.result[0]['Rollen_Name']
+            "</a><br>" + data.result[0]['Rollen_Name'] + " / " + data.result[0]['Abteilung'];
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////Ende des notwendigen Codes///////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,4 +135,6 @@
         }
     }
 </script>
+<script src="../js/options.js"></script>
+<script src="../js/requestFunctions.js"></script>
 </html>

@@ -1,6 +1,10 @@
 body {
     font: 14px "Calibri", Helvetica, Arial, sans-serif;
-    background-color: grey;
+    background-image: url("../images/hintergrund.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+
 }
 
 /*****************************************************************Images*********************************************************************/
@@ -36,12 +40,13 @@ body {
 
 
 .divTitle {
-    border-bottom: 8px solid #555;
+    border-bottom: 8px solid #039CDF;
     background-color: white;
     text-align: center;
     padding-top: 5px;
+    margin-bottom: 10px;
     border-radius: 5px;
-    color: #555;
+    color: #039CDF;
     font-family: Verdana, "Lucida Sans Unicode", sans-serif
 }
 
@@ -64,6 +69,11 @@ body {
 .divContent {
     background-color: #eeeeee;
     padding: 20px;
+    border-radius: 5px;
+}
+
+.divCenter {
+
 }
 
 .divLeft {

@@ -61,3 +61,12 @@ this.registration = (data) => { //Funktion für Registration
         });
     });
 };
+
+this.createCrypto = (Password) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(Password, saltRounds, function (err, hash) {
+            if (err) reject(err);
+            resolve(hash);
+        })
+    });
+};

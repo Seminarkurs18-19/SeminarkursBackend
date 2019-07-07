@@ -25,7 +25,7 @@ this.connection.connect((e) => {
     console.log('connected');
 });
 
-//Sitzungen werden bei Serverstart wird zurückgesetzt
+///Sitzungen werden bei Serverstart zurückgesetzt
 this.connection.query('DELETE FROM Sitzungen WHERE Benutzer_Nr > 0', function (e) {
     if (e) throw e;
     console.log('Sessions wurden gelöscht');
