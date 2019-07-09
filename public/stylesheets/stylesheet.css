@@ -72,8 +72,9 @@ body {
     border-radius: 5px;
 }
 
-.divCenter {
-
+.divOption {
+    border: black 5px dashed;
+    padding-left: 35%;
 }
 
 .divLeft {
@@ -90,7 +91,7 @@ ul {
     margin: 0;
     padding: 0;
     width: auto;
-    background-color: #f1f1f1;
+    background-color: white;
     height: auto;
     overflow: auto;
     border-radius: 5px;

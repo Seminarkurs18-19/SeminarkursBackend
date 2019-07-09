@@ -25,9 +25,9 @@
     </div>
     <div class="divContent">
         <!-------------------------------------------------------Variabler Content------------------------------------------------------------------>
-        <a><h3><b>Githubnews:</b></h3></a>
-        <iframe height="400" name="GitHubFrame" src="" width="100%"></iframe>
-
+        <iframe height="800" name="GitHubFrame" src="http://www.boysen-online.de/"
+                width="100%">
+        </iframe>
         <!---------------------------------------------------Ende variabler Content----------------------------------------------------------------->
     </div>
 </div>
@@ -50,7 +50,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////Notwendiger Code jeder Seite ///////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    var connection = io();
+    this.connection = io();
 
     var pUserData = document.getElementById("pUserData"),
         body = document.getElementById('bdy');
@@ -59,26 +59,28 @@
         console.log("start");
         var session_id = sessionStorage.getItem("session");
         var data = {session_id};
-        console.log(data);
-        connection.emit('user.check.session', data);
+        this.connection.emit('user.check.session', data);
     }
 
     function reset() {
         sessionStorage.clear();
     }
 
-    connection.on('user.check.session.result', (data) => {
-        console.log("Hallo");
+    this.connection.on('user.check.session.result', (data) => {
         if (data.result === true) {
             console.log("SessionID: Berechtigt");
-            body.style.visibility = 'visible';
             var session_id = sessionStorage.getItem('session');
-            connection.emit('session.user.get', {session_id});
+            this.connection.emit('session.user.get', {session_id});
         } else {
             window.location.href = '../index.html';
         }
     });
-    connection.on('session.user.get.result', (data) => {
+    this.connection.on('session.user.get.result', (data) => {
+        if (data.result[0]['Rollen_Nr'] === 3 || data.result[0]['Rollen_Nr'] === 4) {
+            document.getElementById('liDatenbankverwaltung').style.visibility = "hidden";
+            document.getElementById('liSupportverwaltung').style.visibility = "hidden";
+        }
+        body.style.visibility = 'visible';
         var bnNr = String(data.result[0]['Benutzer_Nr']),
             bnResult;
         switch (bnNr.length) {

@@ -103,6 +103,9 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
                         case "user.username.change":
                             neededRole = [1, 2, 3];
                             break;
+                        case "user.department.change":
+                            neededRole = [1, 2, 3];
+                            break;
                         case "user.delete":
                             neededRole = [1, 2];
                             break;

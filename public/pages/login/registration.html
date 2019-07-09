@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Benutzer-Log-In</title>
+    <title>Benutzer-Registration</title>
     <link href="../../stylesheets/stylesheet.css" rel="stylesheet">
     <link href="../../js/options.js" rel="script">
     <link href="../../images/icon.png" rel="icon" sizes="16x16">
@@ -11,11 +11,11 @@
 <body class="bodyLogin">
 
 <div id="divLogin">
-    <h1>Benutzer-Log-In</h1>
+    <h1>Benutzer-Registration</h1>
     <input id="iptBenutzername" placeholder="Benutzername" required type="text"><br>
     <input id="iptPasswort" placeholder="Passwort" required type="password"><br>
-    <button id="btnLogin" onclick="login()">Anmelden</button>
-    <a href="registration.html" style="font-size: small">noch kein Konto erstellt?</a>
+    <button id="btnLogin" onclick="registrate()">Registrieren</button>
+    <a href="login.html" style="font-size: small">Zurück</a>
     <br>
     <div id="divResult">
     </div>
@@ -29,25 +29,23 @@
         result = document.getElementById("divResult");
     var session = "";
 
-    function login() {
-        var log_BN = iptBenutzername.value,
-            log_PW = iptPasswort.value;
+    function registrate() {
+        var reg_BN = iptBenutzername.value,
+            reg_PW = iptPasswort.value;
 
-        if (log_BN === "" || log_PW === "") {
+        if (reg_BN === "" || reg_PW === "") {
             result.innerHTML = "<p><b>Result:</b><br>Benutzername oder Passwort ist nicht eingetragen</p>";
         } else {
-            var data = {log_BN, log_PW};
-            connection.emit('user.login', data);
+            var data = {reg_BN, reg_PW};
+            connection.emit('user.registration', data);
         }
     }
-    connection.on('user.login.result', (data) => {
+
+    connection.on('user.registration.result', (data) => {
         console.log(data);
-        result.innerHTML = "<p><b>Result:</b><br>" + data.result + "</p>" +
-            "<p><b>SessionID:</b><br>" + data.session_id + "</p>";
-        if (data.session_id !== undefined) {
-            session = data.session_id;
-            sessionStorage.setItem("session", session);
-            window.location.href = '../startseite.html';
+        result.innerHTML = "<p><b>Result:</b><br>" + data.result + "</p>";
+        if (data.result === "Benutzerkonto wurde erstellt") {
+            window.location.href = 'login.html';
         }
     });
 </script>

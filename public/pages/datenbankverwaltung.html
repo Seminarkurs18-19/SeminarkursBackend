@@ -34,14 +34,14 @@
                 <a onclick="optArticleTable()">Artikel-Tabelle</a>
                 <a onclick="optSessionTable()">Session-Tabelle</a>
                 <a onclick="optNewArticle()">neuen Artikel hinzufügen</a>
-                <a onclick="optNewItem()">neues Item hinzufügen</a>
             </div>
         </div>
-        <div class="divCenter">
             <div class="divOption" id="divOption">
 
             </div>
+        <div class="divResult" id="divResult">
         </div>
+
         <!---------------------------------------------------Ende variabler Content----------------------------------------------------------------->
     </div>
 </div>
@@ -83,7 +83,6 @@
     connection.on('user.check.session.result', (data) => {
         if (data.result === true) {
             console.log("SessionID: Berechtigt");
-            body.style.visibility = 'visible';
             var session_id = sessionStorage.getItem('session');
             connection.emit('session.user.get', {session_id});
         } else {
@@ -91,6 +90,12 @@
         }
     });
     connection.on('session.user.get.result', (data) => {
+        if (data.result[0]['Rollen_Nr'] === 3 || data.result[0]['Rollen_Nr'] === 4) {
+            document.getElementById('liDatenbankverwaltung').style.visibility = "hidden";
+            document.getElementById('liSupportverwaltung').style.visibility = "hidden";
+            window.location.href = 'startseite.html'
+        }
+        body.style.visibility = 'visible';
         var bnNr = String(data.result[0]['Benutzer_Nr']),
             bnResult;
         switch (bnNr.length) {
