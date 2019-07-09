@@ -126,9 +126,12 @@ this.listenForItems = function (socket) {
     socket.on('usertable.get', function (data) {
         session.checkSessionId(data.session_id, "usertable.get").then((res) => {
             if (res) {
-                var condition = String('ARTIKEL_ID = "' + data.condition + '"'),
+                if(data.condition === undefined || data.condition === null){
+                    data.condition = "Benutzer_Nr > 0"
+                }
+                var condition = data.condition,
                     choosedColumns = '*',
-                    choosedTable = 'Artikel';
+                    choosedTable = 'Benutzer';
                 let sqlData = {choosedColumns, choosedTable, condition};
                 databaseRequest.select(sqlData).then((result) => {
                     if (result.length === 0) result = "Keine Ergebnisse";
@@ -148,4 +151,87 @@ this.listenForItems = function (socket) {
             }
         })
     });
+    socket.on('articletable.get', function (data) {
+        session.checkSessionId(data.session_id, "articletable.get").then((res) => {
+            if (res) {
+                if(data.condition === undefined || data.condition === null){
+                    data.condition = "ARTIKEL_ID > 0"
+                }
+                var condition = data.condition,
+                    choosedColumns = '*',
+                    choosedTable = 'Artikel';
+                let sqlData = {choosedColumns, choosedTable, condition};
+                databaseRequest.select(sqlData).then((result) => {
+                    if (result.length === 0) result = "Keine Ergebnisse";
+                    console.log("Result für 'articletable.get':");
+                    console.log(result);
+                    socket.emit('articletable.get.result', result)
+
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'articletable.get':");
+                console.log(result);
+                var message = {result};
+                socket.emit('articletable.get.result', message)
+            }
+        })
+    });
+    socket.on('sessiontable.get', function (data) {
+        session.checkSessionId(data.session_id, "sessiontable.get").then((res) => {
+            if (res) {
+                if(data.condition === undefined || data.condition === null){
+                    data.condition = "Benutzer_Nr > 0"
+                }
+                var condition = data.condition,
+                    choosedColumns = '*',
+                    choosedTable = 'Sitzungen';
+                let sqlData = {choosedColumns, choosedTable, condition};
+                databaseRequest.select(sqlData).then((result) => {
+                    if (result.length === 0) result = "Keine Ergebnisse";
+                    console.log("Result für 'sessiontable.get':");
+                    console.log(result);
+                    socket.emit('sessiontable.get.result', result)
+
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'sessiontable.get':");
+                console.log(result);
+                var message = {result};
+                socket.emit('sessiontable.get.result', message)
+            }
+        })
+    });
+    socket.on('article.insert', function (data) {
+        session.checkSessionId(data.session_id, "article.insert").then((res) => {
+            if (res) {
+                var values = String('"'+data.artikel_id +'", "'+ data.art_Bez+'", "'+ data.pdf_link +'", "'+
+                                    data.material +'", "'+ data.kunde+'", "'+data.erstellung+'", "'+data.gewicht+'", "'+data.zulieferer+'"'),
+                    columns = 'ARTIKEL_ID, Art_Bez, PDF_link, Material, Kunde, Erstellung, Gewicht, Zulieferer',
+                    choosedTable = 'Artikel';
+                let sqlData = {columns, choosedTable, values};
+                databaseRequest.insert(sqlData).then((result) => {
+                    result.result = "Artikel wurde hinzugefügt";
+                    console.log("Result für 'article.insert':");
+                    console.log(result);
+                    socket.emit('article.insert.result', result)
+
+                }).catch((e) => {
+                    throw e;
+                });
+            } else {
+                var result = "Nicht ausreichende Berechtigung";
+                console.log("Result für 'article.insert':");
+                console.log(result);
+                var message = {result};
+                socket.emit('article.insert.result', message)
+            }
+        })
+    });
+
 };
