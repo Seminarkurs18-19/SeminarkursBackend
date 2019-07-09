@@ -106,8 +106,23 @@ this.checkSessionId = function (SessionID, Type) { //Funktion zum prüfen der Se
                         case "user.delete":
                             neededRole = [1, 2];
                             break;
-                        case "user.department.change":
-                            neededRole = [1, 2, 3];
+                        case "usertable.get":
+                            neededRole = [1, 2];
+                            break;
+                        case "roletable.get":
+                            neededRole = [1, 2];
+                            break;
+                        case "articletable.get":
+                            neededRole = [1, 2];
+                            break;
+                        case "sessiontable.get":
+                            neededRole = [1, 2];
+                            break;
+                        case "article.insert":
+                            neededRole = [1, 2];
+                            break;
+                        case "item.insert":
+                            neededRole = [1, 2];
                             break;
                         //Space for more Requests <==== Hier werden dann mehr Funktionen mit Rollen hinzugefügt
                         default:

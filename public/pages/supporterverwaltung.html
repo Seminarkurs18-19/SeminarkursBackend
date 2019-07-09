@@ -82,6 +82,7 @@
     }
 
     connection.on('user.check.session.result', (data) => {
+        console.log(data.result);
         if (data.result === true) {
             console.log("SessionID: Berechtigt");
             body.style.visibility = 'visible';

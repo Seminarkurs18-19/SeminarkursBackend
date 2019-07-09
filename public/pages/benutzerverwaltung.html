@@ -17,8 +17,6 @@
         <li id="liSupportverwaltung"><a href="supporterverwaltung.html">Supporterverwaltung</a></li>
     </ul>
 </div>
-
-
 <div class="divBody">
     <div class="divTitle">
         <h1>Benutzerverwaltung</h1>
@@ -44,8 +42,6 @@
         <!---------------------------------------------------Ende variabler Content----------------------------------------------------------------->
     </div>
 </div>
-
-
 <div class="divRight">
     <div class="divBenutzer">
         <img class="icon_pers" src="../images/icon_pers.png">
@@ -90,6 +86,12 @@
         }
     });
     connection.on('session.user.get.result', (data) => {
+        var Rollen_Nr = String(data.Rollen_Nr);
+        if (Rollen_Nr === "3" || Rollen_Nr === "4") {
+            console.log("Hallo" + Rollen_Nr);
+            document.getElementById("liSupportverwaltung").style.visibility = "hidden";
+            document.getElementById("liDatenbankverwaltung").style.visibility = "hidden";
+        }
         var bnNr = String(data.result[0]['Benutzer_Nr']),
             bnResult;
         switch (bnNr.length) {
@@ -133,6 +135,136 @@
         }
     }
 </script>
-<script src="../js/options.js"></script>
-<script src="../js/requestFunctions.js"></script>
+<script>
+    var divOption = document.getElementById('divOption');
+
+    //////////////////////////////////////////////////////Benutzerverwaltung/////////////////////////////////////////////////////////
+    function optRegistration() {
+        divOption.innerHTML = " ";
+        divOption.innerHTML =
+            "<div>" +
+            "<h1>Benutzer-Registration</h1>" +
+            "<input id='iptBenutzername' placeholder='Benutzername' type='text'><br>" +
+            "<input id='iptPasswort' placeholder='Passwort' type='text'><br>" +
+            "<button id='btnLogin' onclick='registration()'>Registrieren</button>" +
+            "<br>" +
+            "<div id='divResult'>" +
+            "</div>"
+
+    }
+
+    function optChangeUsername() {
+        divOption.innerHTML = "";
+        divOption.innerHTML =
+            '<div>' +
+            '<div id="divLogin" style="margin: 0px auto; top: 0; left:0;">' +
+            '<h1>Benutzerdaten</h1>' +
+            '<input id="iptBenutzername" placeholder="Benutzername" type="text"><br>' +
+            '<input id="iptPasswort" placeholder="Passwort" type="text"><br>' +
+            '</div><div style="margin: 0px auto">' +
+            '<h1>Neuer Benutzername</h1>' +
+            '<input id="iptNewUsername" placeholder="neuer Benutzername" type="text">' +
+            '<button id="btnNewUsername" onclick="changeUsername()">Senden</button>' +
+            '</div>' +
+            '<br>' +
+            '<div id="divResult">' +
+            '</div>' +
+            '</div>'
+
+    }
+
+    function optChangePassword() {
+        divOption.innerHTML = "";
+        divOption.innerHTML =
+            '<div>' +
+            '<div id="divLogin" style="margin: 0px auto; top: 0; left:0;">' +
+            '<h1>Benutzerdaten</h1>' +
+            '<input id="iptBenutzername" placeholder="Benutzername" type="text"><br>' +
+            '<input id="iptPasswort" placeholder="Passwort" type="text"><br>' +
+            '</div><div style="margin: 0px auto">' +
+            '<h1>Neues Passwort</h1>' +
+            '<input id="iptNewPassword" placeholder="neues Passwort" type="text">' +
+            '<button id="btnNewPassword" onclick="changePassword()">Senden</button>' +
+            '</div>' +
+            '<br>' +
+            '<div id="divResult">' +
+            '</div>' +
+            '</div>'
+
+    }
+
+    function optChangeDepartment() {
+        divOption.innerHTML = "";
+        divOption.innerHTML =
+            '<div>' +
+            '<div id="divLogin" style="margin: 0px auto; top: 0; left:0;">' +
+            '<h1>Benutzerdaten</h1>' +
+            '<input id="iptBenutzername" placeholder="Benutzername" type="text"><br>' +
+            '<input id="iptPasswort" placeholder="Passwort" type="text"><br>' +
+            '</div><div style="margin: 0px auto">' +
+            '<h1>Neue Abteilung</h1>' +
+            '<input id="iptNewDepartment" placeholder="neue Abteilung" type="text">' +
+            '<button id="btnNewDepartment" onclick="changeDepartment()">Senden</button>' +
+            '</div>' +
+            '<br>' +
+            '<div id="divResult">' +
+            '</div>' +
+            '</div>'
+    }
+
+    function optDeleteUser() {
+        divOption.innerHTML = "";
+        divOption.innerHTML =
+            '<div style="margin: 0px auto">' +
+            '<h1>Benutzername des Benutzers</h1>' +
+            '<input id="iptUsername" placeholder="Benutzername" type="text">' +
+            '<button id="btnUsername" onclick="deleteUser()">Löschen</button>' +
+            '</div>' +
+            '<br>' +
+            '<div id="divResult">' +
+            '</div>' +
+            '</div>'
+    }
+
+    //////////////////////////////////////////////////////Datenbankverwaltung/////////////////////////////////////////////////////////
+
+    function optUserTable() {
+        userTable();
+    }
+
+    function optRoleTable() {
+        roleTable();
+    }
+
+    function optArticleTable() {
+        articleTable();
+    }
+
+    function optSessionTable() {
+        sessionTable();
+    }
+
+    function optNewArticle() {
+        newArticle();
+    }
+</script>
+<script>
+    var data = {};
+    var divResult = document.getElementById('divResult');
+
+    //////////////////////////////////////////////////////Benutzerverwaltung/////////////////////////////////////////////////////////
+    function registration() {
+        var iptBenutzername = document.getElementById('iptBenutzername');
+        var iptPasswort = document.getElementById('iptPasswort');
+        data.reg_BN = iptBenutzername.value;
+        data.reg_PW = iptPasswort.value;
+        console.log(data);
+        connection.emit('user.registration', data);
+    }
+
+    connection.on('user.registration.result', (data) => {
+        console.log(data);
+        divResult.innerHTML = "Result: " + data.result;
+    });
+</script>
 </html>

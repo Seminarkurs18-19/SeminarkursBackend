@@ -223,7 +223,7 @@ this.listenForUser = function (socket) {
             if (res) {
                 var condition = String('Sitzungs_ID = "' + data.session_id +
                     '" AND s.Benutzer_Nr = b.Benutzer_Nr AND b.Rollen_Nr = r.Rollen_Nr'),
-                    choosedColumns = 'b.Benutzername, b.Abteilung, r.Rollen_Name, b.Benutzer_Nr',
+                    choosedColumns = 'b.Benutzername, b.Abteilung, r.Rollen_Name, r.Rollen_Nr, b.Benutzer_Nr',
                     choosedTable = 'Benutzer b, Sitzungen s, Rolle r';
                 let sqlData = {choosedColumns, choosedTable, condition};
                 databaseRequest.select(sqlData).then((result) => {

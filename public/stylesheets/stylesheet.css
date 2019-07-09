@@ -2,7 +2,7 @@ body {
     font: 14px "Calibri", Helvetica, Arial, sans-serif;
     background-image: url("../images/hintergrund.jpg");
     background-size: 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-position: right top;
 
 }
