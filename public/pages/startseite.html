@@ -56,7 +56,6 @@
         body = document.getElementById('bdy');
 
     function start() {
-        console.log("start");
         var session_id = sessionStorage.getItem("session");
         var data = {session_id};
         this.connection.emit('user.check.session', data);

@@ -66,16 +66,64 @@ this.connection.on('user.delete.result', (data) => {
 
 //////////////////////////////////////////////////////Datenbankverwaltung/////////////////////////////////////////////////////////
 function userTable() {
+    var session_id = sessionStorage.getItem('session');
+    data = {session_id};
+    this.connection.emit('usertable.get', data);
 }
+
+this.connection.on('usertable.get.result', (data) => {
+    divResult.innerHTML = '<p>' + data + '</p>';
+});
 
 function roleTable() {
+    var session_id = sessionStorage.getItem('session');
+    data = {session_id};
+    this.connection.emit('roletable.get', data);
 }
+
+this.connection.on('roletable.get.result', (data) => {
+    divResult.innerHTML = '<p>' + data + '</p>';
+});
 
 function articleTable() {
+    var session_id = sessionStorage.getItem('session');
+    data = {session_id};
+    this.connection.emit('articletable.get', data);
 }
+
+this.connection.on('articletable.get.result', (data) => {
+    divResult.innerHTML = '<p>' + data + '</p>';
+});
 
 function sessionTable() {
+    var session_id = sessionStorage.getItem('session');
+    data = {session_id};
+    this.connection.emit('sessiontable.get', data);
 }
 
+this.connection.on('sessiontable.get.result', (data) => {
+    var a;
+    for (var i = 0; i === a; i++) {
+        divResult.innerHTML = '<p>' + data[i]['RowDataPacket'] + '</p>';
+        if (data[i]['RowDataPacket'].length <= 0) a = i;
+    }
+    divResult.innerHTML = '<p>' + data + '</p>';
+});
+
 function newArticle() {
+    var session_id = sessionStorage.getItem('session'),
+        artikel_id = document.getElementById('iptArtikel_id').value,
+        art_Bez = document.getElementById('iptArt_Bez').value,
+        pdf_link = document.getElementById('iptPdf_link').value,
+        material = document.getElementById('iptMaterial').value,
+        kunde = document.getElementById('iptKunde').value,
+        erstellung = document.getElementById('iptErstellung').value,
+        gewicht = document.getElementById('iptGewicht').value,
+        zulieferer = document.getElementById('iptZulieferer').value;
+    data = {session_id, artikel_id, art_Bez, pdf_link, material, kunde, erstellung, gewicht, zulieferer};
+    this.connection.emit('article.insert', data);
 }
+
+this.connection.on('article.get.result', (data) => {
+    divResult.innerHTML = '<p>' + data.result + '</p>';
+});

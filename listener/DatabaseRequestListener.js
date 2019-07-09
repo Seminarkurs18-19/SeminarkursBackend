@@ -109,16 +109,13 @@ this.listenForItems = function (socket) {
         })
     });
     socket.on('user.check.session', function (data) {
-        console.log(data);
         session.checkSessionId(data.session_id, "user.check.session").then((res) => {
             var message;
             if (res) {
                 message = {result: true};
-                console.log(message);
                 socket.emit('user.check.session.result', message)
             } else {
                 message = {result: false};
-
                 socket.emit('user.check.session.result', message)
             }
         });
@@ -233,5 +230,4 @@ this.listenForItems = function (socket) {
             }
         })
     });
-
 };
